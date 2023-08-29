@@ -34,6 +34,8 @@ export class ProfileViewComponent implements OnInit {
   userInfoUpdateSuccess:boolean = false;
   addressUpdateSuccess:boolean = false;
 
+  defaultProfileImgUrl = '../../../assets/img/profile-new-user.png';
+
   constructor(private _userService : UserService, private _route : ActivatedRoute, private _router : Router, private _fb : FormBuilder, private _datePipe: DatePipe, private _modalService : NgbModal, private _cdRef: ChangeDetectorRef) {
     //this._userService.setLoggedInUserId(+localStorage.getItem('userId')!);
     /* this._userSubscription = this._userService.userwithCRUD$
@@ -100,7 +102,7 @@ export class ProfileViewComponent implements OnInit {
       next: data => {
         if(data.length>0)
         {
-          console.log(`combined user and address data is : ${JSON.stringify(data)}`)
+          //console.log(`combined user and address data is : ${JSON.stringify(data)}`)
           this.loggedInUserData = data[0];
           this.loggedInUserAddress = data[1];
           this.populateUserDataForm();
@@ -242,6 +244,14 @@ export class ProfileViewComponent implements OnInit {
       this.populateNewAddressForm(address);
     else 
       this.initializeNewAddressForm();
+    
+    const controlBlurs: Observable<any>[] = this.formInputElements
+    .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
+    merge(this.addressListForm.valueChanges, ...controlBlurs).pipe(
+      debounceTime(800)
+    ).subscribe(() => {
+      this.displayMessage = this._genericValidator.processMessages(this.addressListForm);
+    });
   }
 
   openAddressDeleteModal(modalRef:any,address:Address){

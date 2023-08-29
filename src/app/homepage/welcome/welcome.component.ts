@@ -3,7 +3,7 @@ import { Restaurant } from './../../model/restaurant';
 import { Router } from '@angular/router';
 import { RestaurantService } from './../../services/restaurant.service';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, catchError, combineLatest, EMPTY, map, Subject, shareReplay, tap } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, EMPTY, map, Subject, shareReplay, tap, Subscription } from 'rxjs';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -16,6 +16,11 @@ export class WelcomeComponent implements OnInit {
   
   carouselItemNo:number = 2;
   activeCarouselIndex: number = 0; // Store the index of the active carousel item
+
+  private _sub1! : Subscription | null;
+  private _sub2! : Subscription | null;
+
+  defaultRestaurantImgUrl = '../../../assets/img/logo.png';
   
   constructor(private _restService : RestaurantService, private _router : Router, private _orderService : OrdersService) {
     this.updateItemsPerCarouselItem(window.innerWidth);
@@ -38,11 +43,11 @@ export class WelcomeComponent implements OnInit {
     this._restService.setLoggedInUserId(+localStorage.getItem('userId')!);
     this._orderService.setLoggedInUserId(+localStorage.getItem('userId')!);
     if(this.status){
-      this._restService.cartwithCRUD$
+      this._sub1 = this._restService.cartwithCRUD$
       .subscribe();
     }
     //this.restaurantSearchValue = this._restService.getSearchRestaurantinHeader();
-    this._restService.allRestCategfories$.subscribe({
+    this._sub2 = this._restService.allRestCategfories$.subscribe({
       next: category => {
         this.restCategories = (category);
         this.restCategories.unshift('All');
@@ -54,6 +59,11 @@ export class WelcomeComponent implements OnInit {
       }
     });
     //console.log(`All Categories is : ${this.restCategories}`);
+  }
+
+  ngOnDestroy() : void{
+    this._sub1!.unsubscribe();
+    this._sub2!.unsubscribe();
   }
 
   private _filterRestNameSubject = new BehaviorSubject<string>('');

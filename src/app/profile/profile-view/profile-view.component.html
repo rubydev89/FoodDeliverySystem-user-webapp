@@ -237,7 +237,7 @@
                     <div class="row mb-2">
                         <div class="d-block col-sm-6 mb-2 mb-md-0">
                             <input placeholder="City" type="text" id="city" class="form-control" formControlName="city" 
-                            [ngClass]="{'is-invalid': displayMessage['city']}">
+                            [ngClass]="{'is-invalid': displayMessage['city']}" required>
                             <span class="invalid-feedback">
                                 {{displayMessage['city']}}
                             </span>
@@ -245,7 +245,7 @@
         
                         <div class="d-block col-sm-6">
                             <input placeholder="Pin Code" type="number" id="pincode" class="form-control" formControlName="pincode" 
-                            [ngClass]="{'is-invalid': displayMessage['pincode']}">
+                            [ngClass]="{'is-invalid': displayMessage['pincode']}" required>
                             <span class="invalid-feedback">
                                 {{displayMessage['pincode']}}
                             </span>
@@ -254,7 +254,7 @@
                     <div class="row mb-2">
                         <div class="d-block col-sm-6 mb-2 mb-sm-0">
                             <input placeholder="State" type="text" id="state" class="form-control" formControlName="state" 
-                            [ngClass]="{'is-invalid': displayMessage['state']}">
+                            [ngClass]="{'is-invalid': displayMessage['state']}" required>
                             <span class="invalid-feedback">
                                 {{displayMessage['state']}}
                             </span>
@@ -262,7 +262,7 @@
         
                         <div class="d-block col-sm-6">
                             <input placeholder="Country" type="text" id="country" class="form-control" formControlName="country" 
-                            [ngClass]="{'is-invalid': displayMessage['country']}">
+                            [ngClass]="{'is-invalid': displayMessage['country']}" required>
                             <span class="invalid-feedback">
                                 {{displayMessage['country']}}
                             </span>
@@ -274,7 +274,7 @@
                 <label class="form-label d-block col-sm-4 col-md-3" for="phone">Phone<sup
                     class="text-danger">*</sup></label>
                     <div class="d-block col-sm-8 col-md-9">
-                        <input type="tel" id="phone" class="form-control col" name="phone" formControlName="phone" [ngClass]="{'is-invalid': displayMessage['phone']}">
+                        <input type="tel" id="phone" class="form-control col" name="phone" formControlName="phone" [ngClass]="{'is-invalid': displayMessage['phone']}" required>
                         <span class="invalid-feedback">
                             {{displayMessage['phone']}}
                         </span>

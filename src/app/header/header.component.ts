@@ -64,17 +64,18 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout(){
-    this._loginService.onLogOut(+localStorage.getItem('userId')!).subscribe({
+    this._sub = this._loginService.onLogOut(+localStorage.getItem('userId')!).subscribe({
       next : (data) => {
         //console.log(`logout data is: ${data}`);
-        localStorage.clear();
-        this.isUserLoggedIn = false;
-        this._router.navigate(['/login']);
+        
       },
       error : err => {
         console.log(`Error while logging out : ${err}`);
       }
     });
+    localStorage.clear();
+    this.isUserLoggedIn = false;
+    this._router.navigate(['/login']);
   }
 
   updateSearchValue(){

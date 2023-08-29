@@ -15,6 +15,8 @@ export class RestaurantDetailComponent implements OnInit {
 
   selectedRestaurant : Restaurant|undefined;
 
+  defaultRestaurantImgUrl = '../../../assets/img/logo.png';
+
   ngOnInit(): void {
     let restId:number = 0;
     this._route.params.subscribe(params => {

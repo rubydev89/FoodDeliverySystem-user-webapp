@@ -13,6 +13,7 @@ import { HeaderComponent } from './header/header.component';
 import { HomepageModule } from './homepage/homepage.module';
 import { ProcessModule } from './process/process.module';
 import { ProfileModule } from './profile/profile.module';
+import { ResponseInterceptor } from './interceptor/response.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,11 @@ import { ProfileModule } from './profile/profile.module';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResponseInterceptor,
       multi: true,
     }
   ],

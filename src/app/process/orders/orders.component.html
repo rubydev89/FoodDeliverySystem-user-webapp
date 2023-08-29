@@ -35,7 +35,7 @@
                                             {{orderdata.orderItems[0].dish.restaurant.description}}</p>
                                         </div>
                                     </div>
-                                    <div class="card-footer text-muted bg-transparent">
+                                    <div class="card-footer text-muted bg-transparent" *ngIf="orderdata.address">
                                         <h5 class="card-title">Delivery Address</h5>
                                         <p class="card-text"><i class="fa fa-map-pin"></i>&nbsp; {{orderdata.address.street}}, {{orderdata.address.city}}, {{orderdata.address.state}}, {{orderdata.address.country}}, {{orderdata.address.pincode}}</p>
                                         <p class="card-text"><i class="fa fa-phone"></i> &nbsp;{{orderdata.address.phone}}</p>

@@ -1,5 +1,5 @@
 <div class="card mx-5">
-    <img [src]=(selectedRestaurant?.restaurantImageUrl) class="card-img-top cust-restaurant-card-img" [alt]=(selectedRestaurant?.name)>
+    <img *ngIf="selectedRestaurant?.restaurantImageUrl; else defaultImage"  [src]=(selectedRestaurant?.restaurantImageUrl) class="card-img-top cust-restaurant-card-img" [alt]=(selectedRestaurant?.name)>
     <div class="card-body d-flex flex-row justify-content-between mx-3">
         <div>
             <h3 class="card-title">{{selectedRestaurant?.name}}</h3>
@@ -13,3 +13,7 @@
         </div>
     </div>
 </div>
+
+<ng-template #defaultImage>
+    <img [src]=(defaultRestaurantImgUrl) class="card-img-top cust-restaurant-card-img" alt='Restaurant'>
+</ng-template>

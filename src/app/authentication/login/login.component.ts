@@ -1,4 +1,4 @@
-import { UserNAddress } from './../../model/user-naddress';
+
 import { Address } from './../../model/address';
 import { UserService } from './../../services/user.service';
 import { GenericValidator } from '../../shared/generic-validator';
@@ -7,8 +7,8 @@ import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { debounceTime, fromEvent, merge, Observable } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
+import { debounceTime, fromEvent, merge, Observable, Subject, Subscription } from 'rxjs';
+import { SubscriptionService } from 'src/app/services/subscription.service';
 
 function emailMatcher(c : AbstractControl) : ValidationErrors | null {
   const emailControl = c.get('regEmail');
@@ -49,7 +49,11 @@ export class LoginComponent implements OnInit {
   displayMessage: { [key: string]: string } = {};
   private genericValidator: GenericValidator;
 
-  constructor(private _forgotPasswordModal : NgbModal, private _router: Router , private _userService : UserService, private _formBuilder : FormBuilder) {
+  private _loginSub! : Subscription | null;
+  private _registerSub! : Subscription | null;
+  private _addSub! : Subscription | null;
+
+  constructor(private _subscriptionService: SubscriptionService, private _forgotPasswordModal : NgbModal, private _router: Router , private _userService : UserService, private _formBuilder : FormBuilder) {
     this._validationMessages = {
       email : {
         required : 'Please enter your email',
@@ -129,6 +133,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() : void{
+    this._loginSub!.unsubscribe();
+    if(this._registerSub != null)this._registerSub!.unsubscribe();
+    if(this._addSub != null)this._addSub!.unsubscribe();
+  }
+
   onLogin(){
     ////console.log(`---- validateInput() : nav active id is : ${onLoginInputData.loginName}`);
     ////console.log(`---- onLogin() : formData is : ${this.loginForm}`);
@@ -159,7 +169,7 @@ export class LoginComponent implements OnInit {
        }
       }); */
 
-    this._userService.userLogin(userDataLogin)
+    this._loginSub = this._userService.userLogin(userDataLogin)
       .subscribe({ 
         next : (response:User) => { 
           
@@ -177,6 +187,8 @@ export class LoginComponent implements OnInit {
         this.errLoginMessage = err.error.message;
        }
       });
+
+      this._subscriptionService.add(this._loginSub);
   }
 
   onRegister(){
@@ -200,24 +212,26 @@ export class LoginComponent implements OnInit {
           imgUrl : this.registerForm.value.imgUrl
         };
         ////console.log(`user to be added is : ${JSON.stringify(user)}`);
-        this._userService.addUserItem(user).subscribe({
+        this._registerSub = this._userService.addUserItem(user).subscribe({
           next: (data) => {
             this.registerSuccess = true;
             this.onSaveComplete();
             //console.log(`registered data is: ${JSON.stringify(data)}`);
             addressData.users = {id : data!.id};
-            this._userService.userAddressRegister(addressData,data!.id).subscribe({
+            this._addSub = this._userService.userAddressRegister(addressData,data!.id).subscribe({
               next : () => {
                 //console.log(`registered address data is: ${JSON.stringify(data)}`);
               },
               error : err => this.errRegisterMessage = err.error.message
             });
+            this._subscriptionService.add(this._addSub);
           },
           error: err => {
             this.registerSuccess = false;
             this.errRegisterMessage = err.error.message;
           }
         });
+        this._subscriptionService.add(this._registerSub);
       } else {
         this.onSaveComplete();
       }

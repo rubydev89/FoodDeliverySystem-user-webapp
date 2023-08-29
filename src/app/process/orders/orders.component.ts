@@ -38,7 +38,7 @@ export class OrdersComponent implements OnInit {
       .pipe(takeUntil(this._destroy$))
       .subscribe(data => {
         this.allOrderswithItem = data;
-        console.log('Orders component - data:', JSON.stringify(this.allOrderswithItem));
+        //console.log('Orders component - data:', JSON.stringify(this.allOrderswithItem));
       });
     }
   }
@@ -51,7 +51,7 @@ export class OrdersComponent implements OnInit {
   }
 
   cancelOrder(){
-    console.log(`inside cancelOrder()`);
+    //console.log(`inside cancelOrder()`);
   }
 
 }

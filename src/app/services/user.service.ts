@@ -57,7 +57,7 @@ export class UserService {
       .pipe(
         shareReplay(1)
       )
-      .pipe(tap (data => console.log(`address data from service is: ${JSON.stringify(data)}`)));
+      //.pipe(tap (data => console.log(`address data from service is: ${JSON.stringify(data)}`)));
     })
   );
 
@@ -72,8 +72,8 @@ export class UserService {
     )).pipe(
       /* scan((acc, value) => 
         (value instanceof Object) ? { ...acc, ...value } : value, {} as User), */
-      shareReplay(1)
-      ,tap(data => console.log(`userwithCRUD : ${JSON.stringify(data)}`))
+      //shareReplay(1),
+      //tap(data => console.log(`userwithCRUD : ${JSON.stringify(data)}`))
   );
 
   addUserItem(newUserItem: User): Observable<User|null> {
@@ -95,7 +95,7 @@ export class UserService {
 
   updateUserItem(selectedUserItem: User): void {
     // Update a copy of the selected UserItem
-    console.log(`inside updateUserItem() ${JSON.stringify(selectedUserItem)}`);
+    //console.log(`inside updateUserItem() ${JSON.stringify(selectedUserItem)}`);
     this._userModifiedSubject.next({
       item: selectedUserItem,
       action: 'update'
@@ -104,7 +104,7 @@ export class UserService {
   
   saveUser(operation: Action<User>): Observable<User|null> {
     const user = operation.item;
-    console.log('saveUser', JSON.stringify(operation.item));
+    //console.log('saveUser', JSON.stringify(operation.item));
     if (operation.action === 'add') {
       
       return this._httpClient.post<User>(`${environment.baseUrl}/v1/user/register`, user, { headers: this._headers })

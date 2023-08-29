@@ -63,7 +63,7 @@ export class OrdersService {
       )
     })
   )
-  .pipe(tap(data => console.log(`Order Data : ${JSON.stringify(data)}`)));
+  //.pipe(tap(data => console.log(`Order Data : ${JSON.stringify(data)}`)));
 
   allOrderswithItems$ = this.loggedInUserId$.pipe(
     switchMap(userId => {
