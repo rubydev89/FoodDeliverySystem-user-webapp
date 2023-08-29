@@ -1,0 +1,32 @@
+.dropdown-toggle::after{
+    display: none;
+}
+
+select {
+    font-family: 'FontAwesome', 'San-Serif'
+  }
+
+
+
+.accordion-button:not(.collapsed){
+    background-color: #BA3B0A;
+    color : white;
+    font-weight: bold;
+}
+
+.accordion-button{
+    background-color: #E8772E;
+    color : white;
+    font-weight: 500;
+}
+
+.accordion-item .btn{
+    background-color: #E8772E;
+    color : white;
+    font-weight: bold;
+}
+.accordion-item .btn:hover{
+    background-color: #BA3B0A;
+    color : white;
+    font-weight: bold;
+}

@@ -1,0 +1,60 @@
+<div class="custom_header px-3 px-sm-4  shadow mb-5">
+    <nav class="navbar navbar-expand-lg  navbar-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbarSupportedContent" aria-controls="mainNavbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand my-0 py-0 h1" routerLink='{{status ? "/welcome" : "/login" }}' >
+                <img src="./../../assets/img/logo.png" width="110" height="80" class="d-inline-block align-top  custom_logo" alt="Eat Out">
+            </a>
+            <div class="collapse navbar-collapse justify-content-between mt-3 mt-lg-0" id="mainNavbarSupportedContent">
+                <form class="d-flex input-group w-auto ms-auto" *ngIf="status">
+                    <input
+                      type="search"
+                      class="form-control rounded-start"
+                      placeholder="Search for food or restaurant"
+                      aria-label="Search"
+                      [(ngModel)]="searchValue" [ngModelOptions]="{ standalone: true }"  (input)="updateSearchValue()"/>
+                    <span class="input-group-text border-0 d-none d-lg-flex" id="search-addon">
+                      <i class="fa fa-search"></i>
+                    </span>
+                </form>
+
+                <ul class="navbar-nav px-3 ms-auto mt-4 mt-lg-0" *ngIf="status">
+                    <li class="nav-item  px-2 h5">
+                        <a type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" class="nav-link d-inline-flex position-relative">
+                          <span><i class="fa fa-shopping-bag"></i><span class="position-absolute top-75 start-100 translate-middle p-1 badge rounded-pill badge-notification bg-primary" *ngIf="cartItemNumber>0">{{cartItemNumber}}</span></span>
+                          
+                        </a>
+                    </li>
+                    <li ngbDropdown class="nav-item dropdown px-2 h5">
+                        <a class="nav-link dropdown-toggle" id="accountDropdownMenuLink" role="button" ngbDropdownToggle data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user"></i> 
+                        </a>
+                        <ul ngbDropdownMenu class="dropdown-menu  custom-dropdown-menu" aria-labelledby="accountDropdownMenuLink">
+                            <li>
+                                <a class="dropdown-item" (click)="viewMyOrders()">My Orders</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a class="dropdown-item" (click)="viewMyProfile()">My Profile</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a class="dropdown-item" (click)="onLogout()">Logout</a>
+                            </li>
+                        
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <app-cart></app-cart>
+    </div>
+</div>

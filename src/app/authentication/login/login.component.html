@@ -1,0 +1,315 @@
+<div class="container">
+    <div class="row mt-5  gradient-form">
+        <div class="col-md-1 col-lg-3"></div>
+        <div class="col-md-10 col-lg-6">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs justify-content-center nav-fill border border-danger boder-bottom-0" role="tablist">
+                <li [ngbNavItem]="'login'"  role="presentation">
+                    <a ngbNavLink class="d-flex justify-content-center align-items-center h-100 border-0 rounded-0">Login</a>
+                    <ng-template ngbNavContent>
+                        <div class="" id="loginNavContent" role="tabpanel" aria-labelledby="tab-login">
+                            
+                            <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+                                <!-- Email input -->
+                                <div class="row form-outline mt-5 mb-4">
+                                    <label class="form-label d-block col-sm-4" for="loginName">Email<sup
+                                        class="text-danger">*</sup></label>
+                                    <div class="d-block col-sm-8">
+                                        <input type="text" id="loginName" class="form-control" formControlName="email" 
+                                        [ngClass]="{'is-invalid': displayMessage['email']}">
+                                        <span class="invalid-feedback">
+                                            {{displayMessage['email']}}
+                                        </span>
+                                    </div>
+                                </div>
+                        
+                                <!-- Password input -->
+                                <div class="row form-outline mb-4">
+                                    <label class="form-label d-block col-sm-4" for="loginPassword" >Password<sup
+                                        class="text-danger">*</sup></label>
+                                    <div class="d-block col-sm-8">
+                                        <!-- <input type="password" id="loginPassword" class="form-control" formControlName="password" 
+                                        [ngClass]="{'is-invalid': (loginForm.get('password')?.touched ||
+                                        loginForm.get('password')?.dirty) &&
+                                        !loginForm.get('password')?.valid}"> -->
+                                        <input type="password" id="loginPassword" class="form-control" formControlName="password" 
+                                        [ngClass]="{'is-invalid': displayMessage['password']}">
+                                        <span class="invalid-feedback">
+                                            {{displayMessage['password']}}
+                                        </span>
+                                    </div>
+                                </div>
+                        
+                                <!-- 2 column grid layout -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6 d-flex justify-content-center">
+                                        <!-- Checkbox -->
+                                        <div class="form-check mb-3 mb-md-0">
+                                        <input class="form-check-input" type="checkbox" value="" id="loginCheck" checked />
+                                        <label class="form-check-label" for="loginCheck"> Remember me </label>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="col-md-6 d-flex justify-content-center">
+                                        <!-- Simple link -->
+                                        <a [routerLink]="" role="button" id="forgotPasswordButton" (click)="forgotPassword(forgotPasswordModal)"><u>Forgot password?</u></a>
+                                    </div>
+                                </div>
+
+                                <!-- Error Message -->
+                                <div class="form-group row form-outline mb-4 mt-4 text-center" *ngIf="this.errLoginMessage">
+                                    <div class="d-block col">
+                                        <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                            <div>
+                                                &nbsp;&nbsp;{{ this.errLoginMessage }}
+                                            </div>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <!-- Submit button -->
+                                <div class="d-flex justify-content-around">
+                                    <button type="submit" class="btn col-12 col-sm-5 mb-4 gradient-custom-2"
+                                    [title]="loginForm.valid ? 'Save your enetered data' : 'Disabled until the form data is valid'"
+                                    [disabled]="!loginForm.valid" >Login</button>
+                                </div>
+                            </form>
+                            </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="'register'" role="presentation">
+                    <a ngbNavLink class="d-flex justify-content-center align-items-center h-100 border-0 rounded-0">Register</a>
+                    <ng-template ngbNavContent>
+                        <div class="" id="registerNavContent" role="tabpanel" aria-labelledby="tab-register">
+                            <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+                                
+                                <!-- <div class="my-5" style="width: 100%; height: 17px; border-bottom: 1px solid #d8363a; text-align: center">
+                                    <span style="font-size: 20px; background-color: white; padding: 0 10px;">
+                                        Information
+                                    </span>
+                                </div> -->
+
+                                <div formGroupName="email">
+                                    <!-- Email input -->
+                                    <div class="form-group row form-outline mt-5 mb-4">
+                                        <label class="form-label d-block col-sm-4" for="regEmail">Email<sup
+                                            class="text-danger">*</sup></label>
+                                        <div class="d-block col-sm-8">
+                                            <input type="email" id="regEmail" class="form-control" formControlName="regEmail" 
+                                            [ngClass]="{'is-invalid': displayMessage['regEmail']}"/>
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['regEmail']}}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Confirm Email input -->
+                                    <div class="form-group row form-outline mb-4">
+                                        <label class="form-label d-block col-sm-4" for="confirmEmail">Confirm Email<sup
+                                            class="text-danger">*</sup></label>
+                                        <div class="d-block col-sm-8">
+                                            <input type="email" id="confirmEmail" class="form-control" formControlName="confirmEmail" 
+                                            [ngClass]="{'is-invalid': displayMessage['confirmEmail']}"/>
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['confirmEmail']}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Password input -->
+                                <div class="form-group row form-outline mb-4">
+                                    <label class="form-label d-block col-sm-4" for="regPassword">Password<sup
+                                        class="text-danger">*</sup></label>
+                                    <div class=" d-block col-sm-8">
+                                        <input type="password" id="regPassword" class="form-control" formControlName="password" 
+                                        [ngClass]="{'is-invalid': displayMessage['regPassword']}"/>
+                                        <span class="invalid-feedback">
+                                            {{displayMessage['regPassword']}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Personal Information -->
+                                <div class="my-5" style="width: 100%; height: 17px; border-bottom: 1px solid #d8363a; text-align: center">
+                                    <span style="font-size: 20px; background-color: white; padding: 0 10px;">
+                                        Personal Information
+                                    </span>
+                                </div>
+                                
+                                <!-- First Name input -->
+                                <div class="form-group row form-outline mt-5 mb-4">
+                                    <label class="form-label d-block col-sm-4" for="first_name">First Name<sup
+                                        class="text-danger">*</sup></label>
+                                    <div class="d-block col-sm-8">
+                                        <input type="text" id="first_name" class="form-control" formControlName="first_name" 
+                                        [ngClass]="{'is-invalid': displayMessage['first_name']}"/>
+                                        <span class="invalid-feedback">
+                                            {{displayMessage['first_name']}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Last Name input -->
+                                <div class="form-group row form-outline mb-4">
+                                    <label class="form-label d-block col-sm-4" for="last_name">Last Name</label>
+                                    <div class="d-block col-sm-8">
+                                        <input type="text" id="last_name" class="form-control" formControlName="last_name" 
+                                        [ngClass]="{'is-invalid': displayMessage['last_name']}"/>
+                                        <span class="invalid-feedback">
+                                            {{displayMessage['last_name']}}
+                                        </span>
+                                    </div>
+                                </div>
+                        
+                                <!-- Phone input -->
+                                <div class="form-group row form-outline mb-4">
+                                    <label class="form-label d-block col-sm-4" for="phone">Phone</label>
+                                    <div class="d-block col-sm-8">
+                                        <input type="tel" id="phone" class="form-control" formControlName="phone" 
+                                        [ngClass]="{'is-invalid': (registerForm.get('phone')?.touched ||
+                                        registerForm.get('phone')?.dirty) &&
+                                        !registerForm.get('phone')?.valid}"/>
+                                        <span class="invalid-feedback">
+                                            <span *ngIf="registerForm.get('phone')?.errors?.['required']">
+                                                Please enter your phone
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Address -->
+                                <div class="my-5" style="width: 100%; height: 17px; border-bottom: 1px solid #d8363a; text-align: center">
+                                    <span style="font-size: 20px; background-color: white; padding: 0 10px;">
+                                        Address Information
+                                    </span>
+                                </div>
+
+                                <div class="form-group mt-4" formGroupName="address">
+                                    <div class="form-group row form-outline mb-4">
+                                        <label class="form-label d-block col-sm-4" for="street">Address</label>
+                                        <div class="d-block col-sm-8">
+                                            <div class="mb-2">
+                                                <input placeholder="Street Address" type="text" id="street" class="form-control" formControlName="street" 
+                                                [ngClass]="{'is-invalid': (registerForm.get('street')?.touched ||
+                                                registerForm.get('street')?.dirty) &&
+                                                !registerForm.get('street')?.valid}"/>
+                                                <span class="invalid-feedback">
+                                                    <span *ngIf="registerForm.get('street')?.errors?.['required']">
+                                                        Please enter your street
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            
+                                            <div class="row mb-2">
+                                                <div class="d-block col-sm-6 mb-2 mb-md-0">
+                                                    <input placeholder="City" type="text" id="city" class="form-control" formControlName="city" 
+                                                    [ngClass]="{'is-invalid': (registerForm.get('city')?.touched ||
+                                                    registerForm.get('city')?.dirty) &&
+                                                    !registerForm.get('city')?.valid}"/>
+                                                    <span class="invalid-feedback">
+                                                        <span *ngIf="registerForm.get('city')?.errors?.['required']">
+                                                            Please enter your city
+                                                        </span>
+                                                    </span>
+                                                </div>
+        
+                                                <div class="d-block col-sm-6">
+                                                    <input placeholder="Zip Code" type="number" id="pincode" class="form-control" formControlName="pincode" 
+                                                    [ngClass]="{'is-invalid': (registerForm.get('pincode')?.touched ||
+                                                    registerForm.get('pincode')?.dirty) &&
+                                                    !registerForm.get('pincode')?.valid}"/>
+                                                    <span class="invalid-feedback">
+                                                        <span *ngIf="registerForm.get('pincode')?.errors?.['required']">
+                                                            Please enter your zip
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="d-block col-sm-6 mb-2 mb-sm-0">
+                                                    <input placeholder="State" type="text" id="state" class="form-control" formControlName="state" 
+                                                    [ngClass]="{'is-invalid': (registerForm.get('city')?.touched ||
+                                                    registerForm.get('state')?.dirty) &&
+                                                    !registerForm.get('state')?.valid}"/>
+                                                    <span class="invalid-feedback">
+                                                        <span *ngIf="registerForm.get('state')?.errors?.['required']">
+                                                            Please enter your state
+                                                        </span>
+                                                    </span>
+                                                </div>
+        
+                                                <div class="d-block col-sm-6">
+                                                    <input placeholder="Country" type="text" id="country" class="form-control" formControlName="country" 
+                                                    [ngClass]="{'is-invalid': (registerForm.get('city')?.touched ||
+                                                    registerForm.get('country')?.dirty) &&
+                                                    !registerForm.get('country')?.valid}"/>
+                                                    <span class="invalid-feedback">
+                                                        <span *ngIf="registerForm.get('country')?.errors?.['required']">
+                                                            Please enter your country
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row form-outline mb-4 pl-0">
+                                        <label class="form-label d-block col-sm-4" for="street">Type</label>
+                                        <div class="d-block col-sm-8">
+                                            <input placeholder="Home/Office ..." type="text" id="type" class="form-control" formControlName="type"/>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <!-- Img Url input -->
+                                <div class="form-group row form-outline mb-4 pl-0">
+                                    <label class="form-label d-block col-sm-4" for="imgUrl">Image Url</label>
+                                    <div class="d-block col-sm-8">
+                                        <input type="text" id="imgUrl" class="form-control" formControlName="imgUrl" 
+                                        [ngClass]="{'is-invalid': displayMessage['imgUrl']}"/>
+                                        <span class="invalid-feedback">
+                                            {{displayMessage['imgUrl']}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Register Success Message -->
+                                <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between" role="alert" *ngIf="this.registerSuccess">
+                                    <span><strong>Congratulations!</strong> Email registered successfully.</span>
+                                    <a type="button" href="" class="custom-alert close" data-bs-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </a>
+                                </div>
+                                
+                                <!-- Error Message -->
+                                <div class="form-group row form-outline mb-4 mt-4 text-center" *ngIf="this.errRegisterMessage">
+                                    <div class="d-block col">
+                                        <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                            <div>
+                                                &nbsp;&nbsp;{{ this.errRegisterMessage }}
+                                            </div>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" [disabled]="!registerForm.valid"  class="btn col-12 col-sm-5 mb-5 gradient-custom-2">Register</button>
+                                </div>
+                            </form>
+                            </div>
+                    </ng-template>
+                </li>
+            </ul>
+            <div [ngbNavOutlet]="nav" class="pt-3 tab-content px-5 border border-danger border-top-0 rounded-bottom "></div>
+        </div>
+        <div class="col-md-1 col-lg-3"></div>
+    </div>
+</div>
+
+<ng-template #forgotPasswordModal let-modal class="bg-modal">
+   <app-forgot-password (closeModel)="closeModel(forgotPasswordModal)"></app-forgot-password> 
+</ng-template>

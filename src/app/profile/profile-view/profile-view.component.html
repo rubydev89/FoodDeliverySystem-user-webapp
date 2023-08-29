@@ -1,0 +1,312 @@
+<div class="container d-flex flex-column justify-content-center align-items-center h-100 border-0 rounded-0">
+    <div >
+
+        <div class="row">
+            <div class="col-sm-4 mb-4">
+                <img class="rounded w-100 pb-3" [src]="userDataForm.value!.imgUrl" [alt]="userDataForm.value!.first_name" onerror="this.src='../../../assets/img/profile-new-user.png';">
+                <!-- <div id="dish-category-side-bar" class="list-group">
+                    <a type="button" class="list-group-item list-group-item-action"  tabindex="0" (click)="scrollToSection('general-side-bar')">General Information</a>
+                    <a type="button" class="list-group-item list-group-item-action"  tabindex="0" (click)="scrollToSection('address-side-bar')">Address Information</a>
+                </div> -->
+            </div>
+            <div class="col-sm-8">
+                <!-- <div data-bs-spy="scroll" class="gx-0" data-bs-target="#dish-category-side-bar" data-bs-offset="0" class="" tabindex="0"> -->
+                    <ul class="nav nav-tabs" id="addressTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="informationTab" data-bs-toggle="tab" href="#informationContent" role="tab" aria-controls="informationContent" aria-selected="true">General Information</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="addressTab" data-bs-toggle="tab" href="#addressContent" role="tab" aria-controls="addressContent"  aria-selected="false">Address Information</a>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content" id="addressTabContent">
+                        <div class="tab-pane fade show active pt-3 px-3 border rounded-2 mb-5" id="informationContent" role="tabpanel" aria-labelledby="informationTab">
+                            <form [formGroup]="userDataForm">
+                                <span id="general-side-bar" class="row gx-0 scrollspy-containe">
+                                <!-- General Information -->
+                                    <!-- <div class="mb-5" style="width: 100%; height: 17px; border-bottom: 1px solid #d8363a; text-align: center">
+                                        <span style="font-size: 20px; background-color: white; padding: 0 10px;">
+                                            General Information
+                                        </span>
+                                    </div> -->
+        
+                                    <div class="form-group row form-outline mb-4">
+                                        <label class="form-label d-block col-sm-4 col-md-3" for="userId">User ID<sup
+                                            class="text-danger">*</sup></label>
+                                        <div class="d-block col-sm-8 col-md-9">
+                                            <input type="text" id="userId" class="form-control text-muted" formControlName="id" 
+                                            [ngClass]="{'is-invalid': displayMessage['id']}" readonly/>
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['id']}}
+                                            </span>
+                                        </div>
+                                    </div>
+        
+                                    <!-- First Name input -->
+                                    <div class="form-group row form-outline mb-4">
+                                        <label class="form-label d-block col-sm-4 col-md-3" for="first_name">First Name<sup
+                                            class="text-danger">*</sup></label>
+                                        <div class="d-block col-sm-8 col-md-9">
+                                            <input type="text" id="first_name" class="form-control" formControlName="first_name" 
+                                            [ngClass]="{'is-invalid': displayMessage['first_name']}"/>
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['first_name']}}
+                                            </span>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Last Name input -->
+                                    <div class="form-group row form-outline mb-4">
+                                        <label class="form-label d-block col-sm-4 col-md-3" for="last_name">Last Name</label>
+                                        <div class="d-block col-sm-8 col-md-9">
+                                            <input type="text" id="last_name" class="form-control" formControlName="last_name" 
+                                            [ngClass]="{'is-invalid': displayMessage['last_name']}"/>
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['last_name']}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row form-outline mb-4">
+                                        <label class="form-label d-block col-sm-4 col-md-3" for="email">Email<sup
+                                            class="text-danger">*</sup></label>
+                                        <div class="d-block col-sm-8 col-md-9">
+                                            <input type="email" id="email" class="form-control text-muted" formControlName="email" 
+                                            [ngClass]="{'is-invalid': displayMessage['email']}" readonly/>
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['email']}}
+                                            </span>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Password input -->
+                                    <div class="form-group row form-outline mb-4">
+                                        <label class="form-label d-block col-sm-4 col-md-3" for="password">Password<sup
+                                            class="text-danger">*</sup></label>
+                                        <div class="d-block col-sm-8 col-md-9">
+                                            <input type="password" id="password" class="form-control" formControlName="password" 
+                                            [ngClass]="{'is-invalid': displayMessage['password']}"/>
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['password']}}
+                                            </span>
+                                        </div>
+                                    </div>
+        
+                                    <!-- Status -->
+                                    <div class="form-group row form-outline mb-4">
+                                        <label class="form-label d-block col-sm-4 col-md-3" for="status">Status<sup
+                                            class="text-danger">*</sup></label>
+                                        <div class=" d-block col-sm-8 col-md-9">
+                                            <input type="text" id="status" class="form-control text-muted" formControlName="status" 
+                                            [ngClass]="{'is-invalid': displayMessage['status']}" readonly/>
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['status']}}
+                                            </span>
+                                        </div>
+                                    </div>
+        
+                                    <!-- Created On -->
+                                    <div class="form-group row form-outline mb-4">
+                                        <label class="form-label d-block col-sm-4 col-md-3" for="created_on">Member Since</label>
+                                        <div class="d-block col-sm-8 col-md-9">
+                                            <input type="text" id="created_on" class="form-control text-muted" formControlName="created_on" 
+                                            [ngClass]="{'is-invalid': displayMessage['created_on']}" readonly/>
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['created_on']}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </span>
+
+                                <!-- Update Success Message -->
+                                <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between" role="alert" *ngIf="this.userInfoUpdateSuccess">
+                                    <span><strong>Congratulations!</strong> Information has been saved successfully.</span>
+                                    <a type="button" href="" class="custom-alert close" data-bs-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </a>
+                                </div>
+        
+                                <div class="row mx-3 mb-2">
+                                    <div class="d-flex justify-content-center form-check">
+                                        <button class="btn rounded-pill" [disabled]="(this.userDataForm.pristine) || (this.userDataForm.invalid)" (click)="updateUserData()">Update Information</button> 
+                                        
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade pt-3 px-3 border rounded-2 mb-5" id="addressContent" role="tabpanel" aria-labelledby="addressTab">
+                            <span id="address-side-bar" class="row gx-0 scrollspy-container ">
+                                <!-- Address Information -->
+                                <!-- <div class="my-5" style="width: 100%; height: 17px; border-bottom: 1px solid #d8363a; text-align: center">
+                                    <span style="font-size: 20px; background-color: white; padding: 0 10px;">
+                                        Address Information
+                                    </span>
+                                </div> -->
+        
+                                <!-- <ul class="nav nav-tabs" id="addressTab" role="tablist">
+                                    <ng-container *ngFor="let address of loggedInUserAddress; let i = index;">
+                                    <li class="nav-item">
+                                        <a class="nav-link" [id]="'tab' + i" [class.active]="i === 0" data-bs-toggle="tab" [href]="'#content' + i" role="tab" [attr.aria-controls]="'content' + i" [attr.aria-selected]="i === 0">{{address.type}}</a>
+                                    </li>
+                                    </ng-container>
+                                </ul>
+                                
+                                <div class="tab-content" id="addressTabContent">
+                                    <ng-container *ngFor="let address of loggedInUserAddress; let i = index; let first = first;">
+                                        <div class="tab-pane fade active pt-3 px-3 border rounded-2 mb-5" [class.show]="i === 0" [id]="'content' + i" role="tabpanel" [attr.aria-labelledby]="'tab' + i">
+                                            <p class="lh-"><i class="fa fa-map-pin"></i>&nbsp; {{address.street}}, {{address.city}}, {{address.city}}, {{address.state}}, {{address.country}}, {{address.pincode}}</p>
+                                            <p class="lh-1"><i class="fa fa-phone"></i>&nbsp; {{address.phone}}</p>
+                                            <p *ngIf="address.instruction" class="lh-1">Instruction : {{address.instruction}}</p>
+                                            <button class="btn btn-sm rounded-pill mb-3" (click)="openModal(updateAddressModal,address)">Update Address</button>
+                                        </div>
+                                    </ng-container>
+                                </div> -->
+                                <div class="row mb-5">
+                                    <div class="d-flex justify-content-end">
+                                        <a class="btn btn-sm rounded-pill my-2" (click)="openAddressUpdateModal(updateAddressModal,null)">Add New Address</a>
+                                    </div>
+                                    <hr>
+                                    <ng-container *ngFor="let address of loggedInUserAddress; let i = index;">
+                                        <div class="card col mb-3 col-md-5 p-0 mx-2">
+                                            <!-- <div class="card-header">
+                                                <h5 class="card-title">{{address.type}}</h5>
+                                            </div> -->
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{address.type}}</h5>
+                                                <hr>
+                                                <p class="card-text">
+                                                    <p class="lh-1"><i class="fa fa-map-pin"></i>&nbsp; {{address.street}}, {{address.city}}, {{address.city}}, {{address.state}}, {{address.country}}, {{address.pincode}}</p>
+                                                    <p class="lh-1"><i class="fa fa-phone"></i>&nbsp; {{address.phone}}</p>
+                                                    <p *ngIf="address.instruction" class="lh-1">Instruction : {{address.instruction}}</p>
+                                            </div>
+                                            <div class="card-footer d-flex justify-content-around">
+                                                <a class="btn btn-sm rounded-pill my-2" (click)="openAddressUpdateModal(updateAddressModal,address)">Update</a>
+                                                <a *ngIf="loggedInUserAddress.length > 1" class="btn btn-sm rounded-pill my-2" (click)="openAddressDeleteModal(deleteAddressModal,address)">Delete</a>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                <!-- </div> -->
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+
+<ng-template #deleteAddressModal let-modal>
+	<div class="modal-header ">
+		<h4 class="modal-title" id="modal-basic-title">Delete Address</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<div class="my-2 d-flex  flex-column align-items-center">
+            <p class="font-weight-bold"><strong>Confirm if you want to delete the Address.</strong></p> 
+            <p class="font-weight-bold">Once deleted it cannot be reverted back.</p>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn  me-1" (click)="deleteAddressForUser(deleteAddressModal)">Delete Address</button>
+	</div>
+</ng-template>
+
+<ng-template #updateAddressModal let-modal>
+	<div class="modal-header ">
+		<h4 class="modal-title" id="modal-basic-title">Address Management</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body border rounded-2 m-3">
+		<form [formGroup]="addressListForm">
+                            
+            <div class="row form-outline mb-4">
+                <label class="form-label d-block col-sm-4 col-md-3" for="street">Address<sup
+                    class="text-danger">*</sup></label>
+                <div class="d-block col-sm-8 col-md-9">
+                    <div class=" mb-2">
+                        <input placeholder="Street Address" type="text" id="street" class="form-control" formControlName="street" 
+                        [ngClass]="{'is-invalid': displayMessage['street']}" required>
+                        <span class="invalid-feedback">
+                            {{displayMessage['street']}}
+                        </span>
+                    </div>
+                    
+                    <div class="row mb-2">
+                        <div class="d-block col-sm-6 mb-2 mb-md-0">
+                            <input placeholder="City" type="text" id="city" class="form-control" formControlName="city" 
+                            [ngClass]="{'is-invalid': displayMessage['city']}">
+                            <span class="invalid-feedback">
+                                {{displayMessage['city']}}
+                            </span>
+                        </div>
+        
+                        <div class="d-block col-sm-6">
+                            <input placeholder="Pin Code" type="number" id="pincode" class="form-control" formControlName="pincode" 
+                            [ngClass]="{'is-invalid': displayMessage['pincode']}">
+                            <span class="invalid-feedback">
+                                {{displayMessage['pincode']}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="d-block col-sm-6 mb-2 mb-sm-0">
+                            <input placeholder="State" type="text" id="state" class="form-control" formControlName="state" 
+                            [ngClass]="{'is-invalid': displayMessage['state']}">
+                            <span class="invalid-feedback">
+                                {{displayMessage['state']}}
+                            </span>
+                        </div>
+        
+                        <div class="d-block col-sm-6">
+                            <input placeholder="Country" type="text" id="country" class="form-control" formControlName="country" 
+                            [ngClass]="{'is-invalid': displayMessage['country']}">
+                            <span class="invalid-feedback">
+                                {{displayMessage['country']}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row form-outline mb-4">
+                <label class="form-label d-block col-sm-4 col-md-3" for="phone">Phone<sup
+                    class="text-danger">*</sup></label>
+                    <div class="d-block col-sm-8 col-md-9">
+                        <input type="tel" id="phone" class="form-control col" name="phone" formControlName="phone" [ngClass]="{'is-invalid': displayMessage['phone']}">
+                        <span class="invalid-feedback">
+                            {{displayMessage['phone']}}
+                        </span>
+                    </div>
+            </div>
+            <div class="form-group row form-outline mb-4">
+                <label class="form-label d-block col-sm-4 col-md-3" for="addressType">Address Type</label>
+                <div class="d-block col-sm-8 col-md-9">
+                    <input type="text" id="addressType" class="form-control col" name="addressType" formControlName="type">
+                </div>
+            </div>
+            <div class="form-group row form-outline mb-4">
+                <label class="form-label d-block col-sm-4 col-md-3" for="instruction">Delivery Instruction</label>
+                <div class="d-block col-sm-8 col-md-9">
+                    <textarea id="instruction" class="form-control rounded" formControlName="instruction" rows="2" cols="50"></textarea>
+                </div>
+            </div>
+            <!-- <div class="row mx-3" *ngIf="this.addressListForm.dirty">
+                <div class=" d-block col-sm-2"></div>
+                <div class="d-block col-sm-8 form-check">
+                    <button class="btn btn-sm rounded-pill" (click)="updateAddress()"></button> 
+                    
+                </div>
+            </div> -->
+        
+        
+        </form>
+	</div>
+	<div class="modal-footer d-flex justify-content-center">
+		<button *ngIf="addressListForm.value.id != 0; else addNewAddressButton;" [disabled]="addressListForm.invalid" type="button" class="btn  me-1" (click)="updateAddress(updateAddressModal)">Update Address</button>
+        <ng-template #addNewAddressButton>
+            <button (click)="updateAddress(updateAddressModal)" [disabled]="addressListForm.invalid" type="button" class="btn  me-1" >Add Address</button>
+        </ng-template>
+	</div>
+</ng-template>

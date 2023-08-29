@@ -1,0 +1,59 @@
+<div class="container-fluid g-0">
+    <div id="myCarousel" class="carousel carousel-dark slide bg-light align-items-center mt-5 py-3"  data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <!-- <div class="carousel-item active" data-bs-interval="3000">
+                <div class="row">
+                  <div *ngFor="let item of restCategories.slice(0, carouselItemNo); let i = index" class="col-4 col-sm-3 col-md-2 d-flex justify-content-evenly">
+                        <a type="button" (click)="categorySelected(item)" class="btn btn-outline-dark btn-lg rounded-pill cust-category-button mt-1 mx-1 text-nowrap">{{item}}</a>
+                    </div>
+                </div>
+            </div> -->
+            <div *ngFor="let chunk of restCategories.slice(0, carouselItemNo) | chunk: carouselItemNo; let i = index;"  class="carousel-item" [class.active]="i === 0" data-bs-interval="3000">
+                <div class="row mx-5">
+                    <div *ngFor="let item of chunk" class="col d-flex flex-nowrap justify-content-evenly">
+                    <a type="button" (click)="categorySelected(item)"
+                        class="btn btn-outline-dark btn-sm rounded-pill cust-category-button mt-1 mx-1 text-nowrap">{{item}}</a>
+                    </div>
+                </div>
+            </div>
+            
+      
+            <!-- Create additional carousel items for the remaining items -->
+            <div *ngFor="let chunk of restCategories.slice(carouselItemNo) | chunk: carouselItemNo; let i = index" class="carousel-item" data-bs-interval="2000">
+                <div class="row mx-5">
+                    <div *ngFor="let item of chunk" class="col d-flex flex-nowrap justify-content-evenly">
+                        <a type="button"  class="btn btn-outline-dark btn-sm rounded-pill cust-category-button mt-1 mx-1 text-nowrap">{{item}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        <!-- Carousel controls -->
+        <button class="carousel-control-prev d-flex justify-content-start" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next d-flex justify-content-end" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+      
+    <!-- <div *ngIf="restCategories" class="d-flex justify-content-around  bg-light align-items-center mt-5 py-3 scrollable-div">
+        <a type="button" *ngFor="let category of restCategories" (click)="categorySelected(category)" class="btn btn-outline-dark btn-lg rounded-pill cust-category-button mt-1 mx-1 mx-sm-2">{{category}}</a>
+    </div> -->
+    <div class="row row-cols-1 row-cols-sm-3 row-cols-md-4 g-4 mt-5 mx-5" *ngIf="allRestaurants$ | async as rests">
+        <div class="col" *ngFor="let data of rests! ">
+        <div class="card h-100 cust-restaurant-view" (click)="viewDishes(data)">
+            <img [src]=(data.restaurantImageUrl) class="card-img-top" [alt]=(data.name)>
+            <div class="card-body">
+            <h5 class="card-title">{{data.name}}</h5>
+            <p class="card-text">{{data.description}}</p>
+            <p class="card-text"><i class="fa fa-map-pin"></i> &nbsp;{{data.address}}</p>
+            <p class="card-text"><i class="fa fa-phone"></i> &nbsp;{{data.phone}}</p>
+            <app-star [rating]=" data?.rating ? data?.rating! : 0"></app-star>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

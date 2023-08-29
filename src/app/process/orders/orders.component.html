@@ -1,0 +1,136 @@
+<div class="container-fluid row d-flex justify-content-around">
+    <div *ngIf="allOrderswithItem && allOrderswithItem.length > 0; else noOrderItems"  class="col col-md-8">
+        <div class="accordion" id="accordionOrders">
+            <div class="accordion-item" *ngFor="let orderdata of allOrderswithItem; let first = first">
+                <h2 class="accordion-header" [id]="'orderData'+orderdata.orderId">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#orderDataElement'+orderdata.orderId" [attr.aria-controls]="'orderDataElement'+orderdata.orderId" aria-expanded="true">
+                    <!-- <button class="accordion-button" type="button" data-bs-toggle="collapse"  aria-expanded="true"> -->
+                    <div class="d-flex w-100 flex-row justify-content-between align-items-center">
+                        <div class="">
+                            <p><u>{{orderdata.orderItems[0].dish.restaurant.name}} (Order Id: {{orderdata.orderId}})</u></p><p>{{orderdata.orderDate  | date }}</p>
+                        </div>
+                        <div class="mx-5">
+                            <p *ngIf="orderdata.orderStatus.toLowerCase() == 'completed' || orderdata.orderStatus.toLowerCase() == 'cancelled'">{{orderdata.orderStatus}}</p>
+                            <p *ngIf="orderdata.orderStatus.toLowerCase() != 'completed' && orderdata.orderStatus.toLowerCase() != 'cancelled'">{{orderdata.delivery.deliveryTitle}} <!-- | <a *ngIf="orderdata.orderStatus.toLowerCase() == 'order created'" role="button"><i class="fa fa-trash"></i></a> -->
+                        </p>
+                            <p>{{orderdata.totalAmount | currency}} ({{orderdata.totalItems}} item<span *ngIf="orderdata.totalItems > 1">s</span>)</p>
+                        </div>
+                    </div>
+                        
+                    </button>
+                </h2>
+                <div [id]="'orderDataElement'+orderdata.orderId" class="accordion-collapse collapse " [ngClass]="{ 'show': first }" [attr.aria-labelledby]="'orderData'+orderdata.orderId" data-bs-parent="#accordionOrders">
+                    <div class="accordion-body row">
+                        <div class="col-6">
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <img *ngIf="orderdata.orderItems[0].dish.restaurant.restaurantImageUrl" [src]="orderdata.orderItems[0].dish.restaurant.restaurantImageUrl" class="img-fluid rounded-start" [alt]="orderdata.orderItems[0].dish.restaurant.name">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{orderdata.orderItems[0].dish.restaurant.name}}</h5>
+                                            <p class="card-text">
+                                            <app-star *ngIf="orderdata.orderItems[0].dish.restaurant.rating" [rating]=" orderdata.orderItems[0].dish.restaurant.rating"></app-star>
+                                            {{orderdata.orderItems[0].dish.restaurant.description}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-muted bg-transparent">
+                                        <h5 class="card-title">Delivery Address</h5>
+                                        <p class="card-text"><i class="fa fa-map-pin"></i>&nbsp; {{orderdata.address.street}}, {{orderdata.address.city}}, {{orderdata.address.state}}, {{orderdata.address.country}}, {{orderdata.address.pincode}}</p>
+                                        <p class="card-text"><i class="fa fa-phone"></i> &nbsp;{{orderdata.address.phone}}</p>
+                                        <p class="card-text">Delivery Instruction : &nbsp;{{orderdata.address.instruction}}</p>
+                                        <p class="card-text"><i class="fa fa-truck"></i> &nbsp; Driver : &nbsp;{{this.orderdata.delivery.driver.first_name}}&nbsp;{{this.orderdata.delivery.driver.last_name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <!-- <div class="col-6"></div> -->
+                                <div class="table-responsive">
+                                    <table class="table" *ngIf="orderdata.orderItems && orderdata.orderItems.length > 0">
+                                        <tbody>
+                                            <tr class="" *ngFor="let item of orderdata.orderItems ; let i = index">
+                                                <td scope="row">{{i+1}}.</td>
+                                                <td>{{ item.dish.dish_name }} <span *ngIf="item.instruction"> ({{item.instruction}})</span> </td>
+                                                <td>{{ item.quantity }} </td>
+                                                <td>{{ item.dish.price * item.quantity | currency}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="collapse" [id]="'collapseOrderData'+orderdata.orderId">
+                                        <table class="table" *ngIf="orderdata.orderItems && orderdata.orderItems.length > 0">
+                                            <tr class="lh-small">
+                                                <td></td>
+                                                <td></td>
+                                                <td>Total Price:</td>
+                                                <td>{{ orderdata.itemsSubTotal | currency }}</td>
+                                            </tr>
+                                            <tr class="lh-small">
+                                                <td></td>
+                                                <td></td>
+                                                <td>Service Fee & Tax:</td>
+                                                <td>{{ orderdata.taxNFees | currency }} </td>
+                                            </tr>
+                                            <tr class="lh-small">
+                                                <td></td>
+                                                <td></td>
+                                                <td>Driver's Tip:</td>
+                                                <td>{{orderdata.driverTip | currency}}
+                                                </td>
+                                            </tr>
+                                            <tr class="lh-small">
+                                                <td></td>
+                                                <td></td>
+                                                <td>Delivery Fee:</td>
+                                                <td>{{ orderdata.deliveryCharges | currency }}</td>
+                                            </tr>
+                                            <tr class="border-top">
+                                                <td></td>
+                                                <td></td>
+                                                <th>Total:</th>
+                                                <th>{{orderdata.totalAmount  | currency}}</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <p>
+                                        <button class="btn btn-sm rounded-pill" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseOrderData'+orderdata.orderId" aria-expanded="false" [attr.aria-controls]="'collapseOrderData'+orderdata.orderId">
+                                            View Bill Detail
+                                        </button>
+                                    </p>
+                                        <!-- <div class="collapse" [id]="'collapseOrderData'+orderdata">
+                                        <div class="card card-body">
+                                            Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                                        </div>
+                                        </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <div class="d-flex justify-content-end">
+                        <button class="btn rounded-pill mx-3 mb-3" type="button"  >
+                            Review Address
+                        </button>
+
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <app-cart class="col col-md-4  border-start"></app-cart> -->
+</div>
+<ng-template #noOrderItems>
+    <div class="d-flex justify-content-center">
+        <h4 id="">Haven't you ordered yet!</h4>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="col-12 col-sm-5 d-flex justify-content-center">
+            <img src="../../../assets/img/empty-cart.png" alt="Empty Cart" class=" mb-4 text-center">
+        </div>
+    </div>
+    <div class="col-12 col-sm-5 d-flex justify-content-center">
+        <button class="btn btn-sm rounded-pill" routerLink="/welcome">Let's Explore Food</button>
+    </div>
+</ng-template>

@@ -1,0 +1,96 @@
+<div class=" mx-5 mt-3">
+    <div class="" *ngIf="allDishes.length > 0; else noDishes">
+        
+        <div class="row">
+            <div class="col-sm-4 mb-4">
+                <div id="dish-category-side-bar" class="list-group">
+                    <a type="button"    *ngFor="let category of allDishCategoryForRestaurant; let i =index" class="list-group-item list-group-item-action"  tabindex="0" (click)="scrollToSection('dish-category-side-bar-'+i)">{{category}}</a>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div data-bs-spy="scroll" data-bs-target="#dish-category-side-bar" data-bs-offset="0" class="" tabindex="0">
+                    <span *ngFor="let category of allDishCategoryForRestaurant; let i =index" [id]="'dish-category-side-bar-'+i" class="row gx-0 scrollspy-container mb-5">
+                        <h4 class=" mx-3">{{category}}</h4>
+                        <hr class=" mx-3">
+                        <ng-container *ngFor="let dish of allDishes; let i = index">
+                            <div *ngIf="dish.category == category" class="card mt-3 mx-3" style="width: 18rem;">
+                              <img [src]="dish.dishImageUrl" class="card-img-top" [alt]="dish.dish_name">
+                              <div class="card-body">
+                                <h5 class="card-title">{{ dish.dish_name }}</h5>
+                                <p class="card-text">{{ dish.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="card-text fw-bold align-self-center">{{ dish.price | currency }}</p>
+
+                                    
+
+                                    <ng-container *ngIf="cartItems && verifyIfDishInCart(dish); else noContent">
+                                       <div class=" input-group border rounded-pill w-50" >
+                                            <button class="border-0 bg-transparent" type="button" (click)="decreaseDishQuantityInCart(dish)">-</button>
+                                            <input type="text" tabindex="0" class="form-control text-center" [ngModel]="getDishQuantityFromCart(dish)" readonly >
+                                            <button class="border-0  bg-transparent" type="button" (click)="increaseDishQuantityInCart(dish)">+</button>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noContent>
+                                        <button type="button" class="btn text-center rounded-pill" (click)="openAddDishModal(addDishModal,dish)">Add To Cart</button>
+                                    </ng-template>
+                                </div>
+                              </div>
+                            </div>
+                        </ng-container>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- <div *ngFor="let dishes of allDishes">
+            {{dishes.dish_name}}
+
+        </div> -->
+    </div>
+</div>
+
+<ng-template #noDishes>
+    <div class="row mb-5 mt-3 px-3">
+        <h5>{{errorMessage}}</h5>
+        <div class="col-12 col-sm-5"><button type="button" class="btn text-center rounded-pill" routerLink="/welcome">All Restaurants</button></div>
+
+    </div>
+</ng-template>
+
+<ng-template #addDishModal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Add To Cart</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<div class="my-2" *ngIf="dishSelected as dish">
+            <h5 class="modal-title" id="exampleModalLabel">{{ dish.dish_name }}</h5>
+            <p class="card-text align-self-center">{{ dish.description }}</p>
+            <p class="card-text fw-bold align-self-center">{{ dish.price | currency }}</p>
+            <label for="specialInstruction">Instruction</label>
+            <textarea id="specialInstruction" class="rounded p-1" rows="2" cols="50"></textarea>
+		</div>
+	</div>
+	<div class="modal-footer d-flex justify-content-between">
+		<div class="col-2 input-group border rounded-pill" style="width: 25%;">
+            <button class="border-0 bg-transparent" type="button" (click)="decreaseDishQuantityToBeAddedToCart()">-</button>
+            <input type="text" tabindex="0" class="form-control text-center" [ngModel]="dishQuantityToBeAddedToCart" readonly >
+            <button class="border-0  bg-transparent" type="button" (click)="increaseDishQuantityToBeAddedToCart()">+</button>
+        </div>
+        <button type="button" class="col-6 col-md-4 btn text-center rounded-pill" (click)="addToCart(dishSelected)">Add To Cart</button>
+	</div>
+</ng-template>
+
+<ng-template #removeRestaurantFromCartModal let-modal>
+	<div class="modal-header">
+		<h5 class="modal-title" id="modal-basic-title">Want to order from this restaurant?</h5>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<!-- <h5 class="modal-title" id="exampleModalLabel">Want to order from this restaurant?</h5> -->
+        <p class="card-text align-self-center">You already have dishes from other restaurants in your cart.</p>
+        <p class="card-text fw-bold align-self-center">Please empty your cart first to add dishes from this restaurant.</p>
+	</div>
+	<div class="modal-footer d-flex justify-content-around">
+        <button type="button" class="col-6 col-md-4 btn text-center rounded-pill" (click)="emptyCart()">Empty Cart</button>
+	</div>
+</ng-template>

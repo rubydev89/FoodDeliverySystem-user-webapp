@@ -1,0 +1,45 @@
+<div *ngIf="cartItems && cartItems.length > 0; else emptyCart">
+    <div class="offcanvas-header bg-custom-theme mb-4">
+        <h4 id="offcanvasRightLabel">Your Cart</h4>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <!-- <hr class=" mx-3 mb-4"> -->
+    <ng-container *ngFor="let cartItem of cartItems; let i = index;">
+        <div class="row d-flex flex-row align-items-center px-3 fst-italic">
+            <!-- <img [src]="cartItem.dishes.dishImageUrl" class="w-25" alt=""> -->
+            <p class="col-1">{{i+1}}.</p>
+            <p class="col-5 px-3 text-nowrap text-capitalize">{{ cartItem.dishes.dish_name }}</p>
+            <!-- <p class="px-4">{{ cartItem.quantity }}</p> -->
+            
+            <div class="col-auto input-group border rounded-pill" style="width: 25%;">
+                <button class="border-0 bg-transparent w-25" type="button" (click)="decreaseDishQuantityToBeAddedToCart(cartItem)">-</button>
+                <input type="text" tabindex="0" class="form-control text-center h-75" [ngModel]="cartItem.quantity" readonly >
+                <button class="border-0  bg-transparent w-25" type="button" (click)="increaseDishQuantityToBeAddedToCart(cartItem)">+</button>
+            </div>
+            <p class="col-1 px-4">{{ cartItem.dishes.price * cartItem.quantity | currency}}</p>
+        </div>
+    </ng-container>
+    <hr class=" mx-3 mb-4">
+    <div class="d-flex justify-content-end mx-4 px-1">
+        <p class="fw-bold">Total Price:&nbsp;&nbsp; {{ cartTotalPrice | currency }}</p>
+    </div>
+    <hr class=" mx-3 mb-4">
+    <div class="d-flex justify-content-around">
+        <button class="btn btn-sm rounded-pill" type="button" data-bs-dismiss="offcanvas" aria-label="Close" (click)="exploreMore()">Explore More</button>
+        <button class="btn btn-sm rounded-pill" type="button" data-bs-dismiss="offcanvas" aria-label="Close" (click)="checkout()">Checkout</button>
+    </div>
+</div>
+
+<ng-template #emptyCart>
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Your cart is Empty</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="col-12 col-sm-5 w-100 d-flex justify-content-around">
+            <img src="../../../assets/img/empty-cart.png" class="w-50 mb-4 text-center" alt="Empty Cart"></div>
+        <!-- <div class="col-12 col-sm-5 w-100 d-flex justify-content-around">
+            <button type="button" class="btn text-center rounded-pill" routerLink="/welcome">Search Food</button>
+        </div> -->
+    </div>
+</ng-template>

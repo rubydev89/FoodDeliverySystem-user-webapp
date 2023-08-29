@@ -1,0 +1,13 @@
+<div class="crop " *ngIf="rating>0"
+     [style.width.px]="starWidth"
+     [title]="rating"
+     (click)="onClick()">
+    <div style="width: 75px;">
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+    </div>
+   <span class="">({{rating}})</span>
+</div>

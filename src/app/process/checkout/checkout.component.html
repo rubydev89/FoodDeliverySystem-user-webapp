@@ -1,0 +1,429 @@
+<!-- <script
+    data-sdk-integration-source="integrationbuilder_sc"
+    src="https://www.paypal.com/sdk/js?client-id=ARJcAaXmVbZilTVDQZZBg4BQETMXvSaYnD6pYYNGeVgkQGc1wc4tB3BlQq5Bn6jGJJDYkmG6bpc_WjP3&components=buttons&enable-funding=venmo,paylater"></script> -->
+  
+<div class="container-fluid row d-flex justify-content-around">
+    <div *ngIf="cartItems && cartItems.length > 0; else noCartItems"  class="col col-md-8">
+        <div class="accordion" id="accordionCheckout">
+            <div class="accordion-item" #cartHeadingElement>
+                <h2 class="accordion-header" id="cartElementHeading">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#cartElement" aria-controls="cartElement" aria-expanded="true">
+                    <!-- <button class="accordion-button" type="button" data-bs-toggle="collapse"  aria-expanded="true"> -->
+                    Cart
+                    </button>
+                </h2>
+                <div id="cartElement" class="accordion-collapse collapse show " aria-labelledby="cartElementHeading" data-bs-parent="#accordionCheckout">
+                    <div class="accordion-body">
+                        <div class="">
+                            <!-- <hr class=" mx-3 mb-4"> -->
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="d-none">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Dish</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let cartItem of cartItems; let i = index;">
+                                            <th scope="row">{{i+1}}.</th>
+                                            <td>{{ cartItem.dishes.dish_name }}</td>
+                                            <td>
+                                                <div class="col-auto input-group border rounded-pill " style="width: 6rem;">
+                                                    <button class="border-0 bg-transparent w-25" type="button" (click)="decreaseDishQuantityToBeAddedToCart(cartItem)">-</button>
+                                                    <input type="text" tabindex="0" class="form-control text-center h-75" [ngModel]="cartItem.quantity" readonly >
+                                                    <button class="border-0  bg-transparent w-25" type="button" (click)="increaseDishQuantityToBeAddedToCart(cartItem)">+</button>
+                                                </div>
+                                            </td>
+                                            <td>{{ cartItem.dishes.price * cartItem.quantity | currency}}</td>
+                                            <td><a class="col-1 text-black rounded-pill m-3" role="button" (click)="removeDishFromCart(cartItem)" >
+                                                <i class="fa fa-trash"></i>
+                                            </a></td>
+                                        </tr>
+                                        <tr class="lh-1">
+                                            <td></td>
+                                            <th></th>
+                                            <td>Total Price:</td>
+                                            <td>{{ cartSubTotalPrice | currency }}</td>
+                                            <th></th>
+                                        </tr>
+                                        <tr class="lh-1">
+                                            <th></th>
+                                            <th></th>
+                                            <td>
+                                                Service Fee & Tax:
+                                                <a role="button" class="" data-bs-toggle="tooltip" data-bs-placement="left" title="This include Tax and Service Fee of 15%">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </a>
+                                            </td>
+                                            <td>{{ serviceFeeAmount + taxAmount | currency }} </td>
+                                            <th></th>
+                                        </tr>
+                                        <tr class="lh-1">
+                                            <th></th>
+                                            <th></th>
+                                            <td>
+                                                <label for="driverTip">Driver's Tip:</label>
+                                            </td>
+                                            <td>
+                                                <input type="number" name="" id="driverTip" #driverTip (input)="updateDriversTip(driverTip)" style="width: 4rem;">$
+                                            </td>
+                                            <th></th>
+                                        </tr>
+                                        <tr class="lh-1">
+                                            <th></th>
+                                            <th></th>
+                                            <td>Delivery Fee:</td>
+                                            <td>{{ deliverCharge | currency }}</td>
+                                            <th></th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th>
+                                                <label for="driverTip">Total:</label>
+                                            </th>
+                                            <th>
+                                                {{totalFinalAmount  | currency}}
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn rounded-pill mx-3 mb-3" type="button" (click)="toggleAccordion(cartHeadingElement,addressHeadingElement)" >
+                            Review Address
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" #addressHeadingElement>
+                <h2 class="accordion-header" id="addressElementHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#AddressElement" aria-expanded="false" aria-controls="AddressElement">
+                    Address
+                    </button>
+                </h2>
+                <div id="AddressElement" class="accordion-collapse collapse" aria-labelledby="addressElementHeading" data-bs-parent="#accordionCheckout">
+                    <div class="accordion-body">
+
+                        <div class="row">
+                            <div *ngFor="let address of loggedInUserAddress; let i = index;" class="form-check d-flex flex-row justify-content-center col-11 col-sm-5 col-md-4 border radius-2 mx-3 mb-3">
+                                <input class="form-check-input col-1 mt-3 px-1" type="radio" name="flexRadioDefault" [id]="'address'+i" (click)="addressSelect(address)" [checked]="i==0">
+                                <label class="col-11 form-check-label mx-2" [for]="'address'+i">
+                                    <p class="card-text">
+                                        <p class="lh-1"><i class="fa fa-map-pin"></i>&nbsp; {{address.street}}, {{address.city}}, {{address.city}}, {{address.state}}, {{address.country}}, {{address.pincode}}</p>
+                                        <p class="lh-1"><i class="fa fa-phone"></i>&nbsp; {{address.phone}}</p>
+                                        <p *ngIf="address.instruction" class="lh-1">Instruction : {{address.instruction}}</p>
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <!-- <div class="form-group mt-4" [formGroup]="addressListForm">
+                            <div class="form-group row form-outline mb-4">
+                                <label class="form-label d-block col-sm-2" for="street">Address<sup
+                                    class="text-danger">*</sup></label>
+                                <div class="d-block col-sm-8">
+                                    <div class="mb-2">
+                                        <input placeholder="Street Address" type="text" id="street" class="form-control" formControlName="street" 
+                                        [ngClass]="{'is-invalid': displayMessage['street']}">
+                                        <span class="invalid-feedback">
+                                            {{displayMessage['street']}}
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="row mb-2">
+                                        <div class="d-block col-sm-6 mb-2 mb-md-0">
+                                            <input placeholder="City" type="text" id="city" class="form-control" formControlName="city" 
+                                            [ngClass]="{'is-invalid': displayMessage['city']}">
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['city']}}
+                                            </span>
+                                        </div>
+
+                                        <div class="d-block col-sm-6">
+                                            <input placeholder="Pin Code" type="number" id="pincode" class="form-control" formControlName="pincode" 
+                                            [ngClass]="{'is-invalid': displayMessage['pincode']}">
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['pincode']}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="d-block col-sm-6 mb-2 mb-sm-0">
+                                            <input placeholder="State" type="text" id="state" class="form-control" formControlName="state" 
+                                            [ngClass]="{'is-invalid': displayMessage['state']}">
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['state']}}
+                                            </span>
+                                        </div>
+
+                                        <div class="d-block col-sm-6">
+                                            <input placeholder="Country" type="text" id="country" class="form-control" formControlName="country" 
+                                            [ngClass]="{'is-invalid': displayMessage['country']}">
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['country']}}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                   <!--  <div class="mb-2">
+                                        <label class="col-sm-3 px-0" for="restaurantPhone">Phone<sup
+                                            class="text-danger">*</sup></label>
+                                        <div class="d-block col-sm-9 px-0">
+                                            <input type="tel" id="restaurantPhone" class="form-control col" name="restaurantPhone" formControlName="phone" [ngClass]="{'is-invalid': displayMessage['phone']}">
+                                            <span class="invalid-feedback">
+                                                {{displayMessage['phone']}}
+                                            </span>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row form-outline mb-4">
+                                <label class="form-label d-block col-sm-2" for="restaurantPhone">Phone<sup
+                                    class="text-danger">*</sup></label>
+                                    <div class="d-block col-sm-8">
+                                        <input type="tel" id="restaurantPhone" class="form-control col" name="restaurantPhone" formControlName="phone" [ngClass]="{'is-invalid': displayMessage['phone']}">
+                                        <span class="invalid-feedback">
+                                            {{displayMessage['phone']}}
+                                        </span>
+                                    </div>
+                            </div>
+                            <div class="form-group row form-outline mb-4">
+                                <label class="form-label d-block col-sm-2" for="addressType">Address Type</label>
+                                <div class="d-block col-sm-8">
+                                    <input type="text" id="addressType" class="form-control col" name="addressType" formControlName="type">
+                                </div>
+                            </div>
+                            <div class="form-group row form-outline mb-4">
+                                <label class="form-label d-block col-sm-2" for="instruction">Delivery Instruction</label>
+                                <div class="d-block col-sm-8">
+                                    <textarea id="instruction" class="form-control rounded p-1" formControlName="instruction" rows="2" cols="50"></textarea>
+                                </div>
+                            </div>
+                            <div class="alert alert-success alert-dismissible fade show col-sm-10" role="alert" *ngIf="addressUpdated">
+                                <strong>Congratulations!</strong> Your address has been saved.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            <div class="row mx-3" *ngIf="this.addressListForm.dirty">
+                                <div class=" d-block col-sm-2"></div>
+                                <div class="d-block col-sm-8 form-check">
+                                    <button class="btn btn-sm rounded-pill" (click)="updateAddress()">Update Address</button> 
+                                    
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a (click)="viewProfile()" class="mx-3">Go to Profile to add/edit Address</a>
+                        <button [disabled]="!selectedAddressForOrder" class="btn rounded-pill m-3" type="button" (click)="toggleAccordion(addressHeadingElement,paymentHeadingElement)" >
+                        Review Payment
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" #paymentHeadingElement>
+                <h2 class="accordion-header" id="paymentElementHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#paymentElement" aria-expanded="false" aria-controls="paymentElement">
+                    Payment
+                    </button>
+                </h2>
+                <div id="paymentElement" class="accordion-collapse collapse" aria-labelledby="paymentElementHeading" data-bs-parent="#accordionCheckout">
+                    <div class="accordion-body">
+
+                        <div class="container">
+                            <div class="row">
+                              <div class="col fs-4">
+                                <!-- <label>Select Option:</label> -->
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="options" id="PayPal" value="PayPal" [(ngModel)]="paymentMethodSelected">
+                                  <label class="form-check-label mx-4" for="PayPal"><a class="dropdown-item" value="PayPal" >PayPal &nbsp;&nbsp; <i class="fa fa-paypal"></i></a></label>
+                                </div>
+                                <div class="row my-3 d-flex justify-content-start  fs-6 mx-5" *ngIf="paymentMethodSelected === 'PayPal'">
+                                    <!-- Display content for Option 1 -->
+                                    <div id="paypal-button-container"></div>
+                                    <a href="https://www.paypal.com/signin" target="_blank"><i class="fa fa-cc-paypal" style="font-size: 5rem;"></i></a>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="options" id="Credit/Debit" value="Credit/Debit" [(ngModel)]="paymentMethodSelected">
+                                  <label class="form-check-label mx-4" for="Credit/Debit"><a class="dropdown-item" value="Credit/Debit" >Credit/Debit Card &nbsp;&nbsp; <i class="fa fa-credit-card"></i></a></label>
+                                </div>
+                                <div class="row mt-3 d-flex justify-content-start  fs-6" *ngIf="paymentMethodSelected === 'Credit/Debit'">
+                                    <div class="col-11 mx-md-5 px-md-5 py-md-3 border rounded">
+                                        <form [formGroup]="paymentCardDetail">
+                                            <div class="form-group mb-3">
+                                                <label for="nameOnCard" class="form-label">Name on Card</label>
+                                                <input type="text" class="form-control" id="nameOnCard" name="nameOnCard" placeholder="Name on Card" formControlName="nameOnCard" [ngClass]="{'is-invalid': displayMessage['nameOnCard']}">
+                                                <span class="invalid-feedback">
+                                                    {{displayMessage['nameOnCard']}}
+                                                </span>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label for="cardNumber" class="form-label">Card Number</label>
+                                                <input type="number" class="form-control" id="cardNumber" name="cardNumber" placeholder="Card Number" formControlName="cardNumber" [ngClass]="{'is-invalid': displayMessage['cardNumber']}">
+                                                <span class="invalid-feedback">
+                                                    {{displayMessage['cardNumber']}}
+                                                </span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-6 mb-3 ">
+                                                    <label for="cardExpirationDate" class="form-label">Expiration Date</label>
+                                                    <input type="text" class="form-control" id="cardExpirationDate" name="cardExpirationDate" placeholder="MM/YY" formControlName="cardExpirationDate" [ngClass]="{'is-invalid': displayMessage['cardExpirationDate']}">
+                                                    <span class="invalid-feedback">
+                                                        {{displayMessage['cardExpirationDate']}}
+                                                    </span>
+                                                </div>
+                                                <div class="form-group col-md-6 mb-3 ">
+                                                    <label for="cvv" class="form-label">CVV</label>
+                                                    <input type="number" class="form-control" id="cvv" name="cvv" placeholder="CVV" formControlName="cvv" [ngClass]="{'is-invalid': displayMessage['cvv']}">
+                                                    <span class="invalid-feedback">
+                                                        {{displayMessage['cvv']}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!-- <button type="submit" class="btn btn-primary mt-3">Submit Payment</button> -->
+                                        </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          
+                            
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button [disabled]="!(paymentMethodSelected === 'Credit/Debit' || paymentMethodSelected === 'PayPal') && !paymentCardDetail.valid" class="btn  rounded-pill m-3" type="button" (click)="toggleAccordion(paymentHeadingElement,placeOrderHeadingElement)" >
+                                Review Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" #placeOrderHeadingElement>
+                <h2 class="accordion-header" id="placeOrderElementHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#placeOrderElement" aria-expanded="false" aria-controls="placeOrderElement">
+                    Review Order
+                    </button>
+                </h2>
+                <div id="placeOrderElement" class="accordion-collapse collapse" aria-labelledby="placeOrderElementHeading" data-bs-parent="#accordionCheckout">
+                    <div class="accordion-body">
+                        <div class="cart-items lh-1">
+                            <h4 class="" id=""> Cart Items ({{ totalFinalAmount | currency }})</h4>
+                            <hr class="hr"/>
+                            <ng-container *ngFor="let cartItem of cartItems; let i = index;">
+                                <div class="row d-flex flex-row align-items-center px-3 fst-italic">
+                                    <!-- <img [src]="cartItem.dishes.dishImageUrl" class="w-25" alt=""> -->
+                                    <p class="col-1 ">{{i+1}}.</p>
+                                    <p class="col-6 col-sm-5 col-md-4 px-sm-3  text-nowrap text-capitalize">
+                                        {{ cartItem.dishes.dish_name }}
+                                    </p>
+                                    
+                                    <p class="col-1">{{ cartItem.quantity }}</p>
+                                    
+                                    <p class="col-1 px-4">{{ cartItem.dishes.price * cartItem.quantity | currency}}</p>
+                                </div>
+                            </ng-container>
+                            <div class="row d-flex flex-row align-items-center px-3 fst-italic">
+                                <!-- <img [src]="cartItem.dishes.dishImageUrl" class="w-25" alt=""> -->
+                                <p class="col-8 d-flex justify-content-end col-sm-7 col-md-6"> Cart Total:</p>
+                                <p class="col-1 px-4">{{ cartSubTotalPrice | currency}}</p>
+                            </div>
+                            <div class="row d-flex flex-row align-items-center px-3 fst-italic">
+                                <!-- <img [src]="cartItem.dishes.dishImageUrl" class="w-25" alt=""> -->
+                                <p class="col-8 d-flex justify-content-end col-sm-7 col-md-6"> Servive Fee & Tax:</p>
+                                <p class="col-1 px-4">{{ serviceFeeAmount | currency}}</p>
+                            </div>
+                            <div class="row d-flex flex-row align-items-center px-3 fst-italic">
+                                <!-- <img [src]="cartItem.dishes.dishImageUrl" class="w-25" alt=""> -->
+                                <p class="col-8 d-flex justify-content-end col-sm-7 col-md-6"> Driver's Tip:</p>
+                                <p class="col-1 px-4">{{ driverTipAmount | currency}}</p>
+                            </div>
+                            <div class="row d-flex flex-row align-items-center px-3 fst-italic">
+                                <!-- <img [src]="cartItem.dishes.dishImageUrl" class="w-25" alt=""> -->
+                                <p class="col-8 d-flex justify-content-end col-sm-7 col-md-6"> Delivery Fee:</p>
+                                <p class="col-1 px-4">{{ deliverCharge | currency}}</p>
+                            </div>
+                            <hr>
+                            <div class="row d-flex flex-row align-items-center px-3 fst-italic fw-bold">
+                                <!-- <img [src]="cartItem.dishes.dishImageUrl" class="w-25" alt=""> -->
+                                <p class="col-8 d-flex justify-content-end col-sm-7 col-md-6"> Total:</p>
+                                <p class="col-1 px-4">{{ totalFinalAmount | currency}}</p>
+                            </div>
+                            <hr>
+                        </div>
+                        <div *ngIf="selectedAddressForOrder" class="address mt-4">
+                            <h4 class="" id=""> Address</h4>
+                            <hr class="hr"/>
+                            <div class="row">
+                                <div class="col-3">Delivery Address: </div>
+                                <div class="col-auto">
+                                    <p class="mb-0"><i class="fa fa-map-pin"></i>&nbsp; {{selectedAddressForOrder!.street}},&nbsp;{{selectedAddressForOrder!.city}},&nbsp;{{selectedAddressForOrder!.state}},&nbsp;{{selectedAddressForOrder!.pincode}}</p>
+                                    <p><i class="fa fa-phone"></i> &nbsp;{{selectedAddressForOrder!.phone}}</p>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="selectedAddressForOrder!.instruction">
+                                <div class="col-3">  </div>
+                                <div class="col-auto">
+                                    <h6>{{selectedAddressForOrder!.instruction}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payment mt-4">
+                            <h4 class="" id=""> Payment Method</h4>
+                            <hr class="hr"/>
+                            <h6>{{paymentMethodSelected}} 
+                                <span *ngIf="paymentMethodSelected == 'Credit/Debit'"> <i class="fa fa-credit-card"></i> (card ending with {{this.paymentCardDetail.value.cardNumber | hiddenNumber}})</span>
+                                <span *ngIf="paymentMethodSelected == 'PayPal'"><i class="fa fa-cc-paypal"></i></span>
+                            </h6>
+                        </div>
+                        <div class="orderConfirmSection d-flex justify-content-around">
+                            <button [disabled]="paymentMethodSelected == '' || (paymentMethodSelected === 'Credit/Debit' && !paymentCardDetail.valid)" class="btn btn-lg rounded-pill mx-3 mb-3" type="button" (click)="placeOrder()" >
+                                Place Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <app-cart class="col col-md-4  border-start"></app-cart> -->
+</div>
+<ng-template #noCartItems>
+    <div class="d-flex justify-content-center">
+        <h4 id="">Your cart is Empty</h4>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="col-12 col-sm-5 d-flex justify-content-center">
+            <img src="../../../assets/img/empty-cart.png" alt="Empty Cart" class=" mb-4 text-center">
+        </div>
+    </div>
+    <div class="col-12 col-sm-5 d-flex justify-content-center">
+        <button class="btn btn-sm rounded-pill" routerLink="/welcome">Explore Food Options</button>
+    </div>
+</ng-template>
+
+<ng-template #orderPlaced let-modal>
+	<div class="modal-header gradient-custom-2">
+		<h4 class="modal-title" id="modal-basic-title">Order Confirmation</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<div class="my-2 d-flex  flex-column  text-center">
+            <h5 class="font-weight-bold"><strong>Congratulations!! Your order with order ID {{newOrderData?.orderId}} is placed successfully!</strong></h5> 
+            <p class="mt-3">You will soon receive an email confirmation at your registered email address.</p>
+		</div>
+	</div>
+	<div class="modal-footer d-flex justify-content-around">
+		<button type="button" class="btn gradient-custom-2 me-1" (click)="trackOrder()">Track Order</button>
+        <button type="button" class="btn gradient-custom-2 me-1" (click)="orderMore()">Order more Items</button>
+	</div>
+</ng-template>

@@ -1,1 +1,126 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.custom_header .bg-custom-theme{
+    background-color: #BA3B0A;
+    color : white;
+}
+
+/* app-checkout .bg-custom-theme{
+    background-color: #E8772E;
+}
+
+.accordion-item h2{
+    background-color: #E8772E;
+} */
+
+.btn {
+    background-color: #BA3B0A;
+    color : white;
+    font-weight: bold;
+}
+
+.btn:hover{
+    background-color: #E8772E;
+    color : white;
+}
+
+.modal-body .btn, .modal-footer .btn {
+    background-color: #E8772E;
+    color : white;
+    font-weight: bold;
+}
+.modal-body .btn:hover, .modal-footer .btn:hover {
+    background-color: #BA3B0A;
+    color : white;
+    font-weight: bold;
+}
+
+.card-header, .modal-header{
+    background-color: #E8772E;
+    color : white;
+}
+
+.card-body .btn{
+    background-color: #E8772E;
+    color : white;
+    font-weight: bold;
+}
+.card-body .btn:hover{
+    background-color: #BA3B0A;
+    color : white;
+    font-weight: bold;
+}
+
+.dropdown select.btn{
+    background-color: transparent;
+    color : #212529;
+    font-weight: 400;
+}
+.dropdown select.btn:hover{
+    background-color: #E8772E;
+    color : white;
+    font-weight: 500;
+}
+
+.custom_header {
+    background-color: #BA3B0A;
+    color : white;
+}
+
+.custom_header a{
+    color : white;
+    font-weight: bold;
+}
+
+.custom_header li{
+    cursor: pointer;
+}
+
+.custom_logo {
+    border-radius: 50%;
+}
+
+td a{
+    color: black;
+}
+
+th{
+    cursor: pointer;
+}
+
+.custom-hr{
+    width: 100%; 
+    height: 17px; 
+    border-bottom: 1px solid #d8363a; 
+    text-align: center;
+}
+.custom-hr>span{
+    font-size: 20px; 
+    background-color: white; 
+    padding: 0 10px;
+}
+
+.custom-invalid-feedback{
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 1em;
+    color: #d8363a;
+    font-style: italic;
+}
+
+.custom-alert{
+    text-decoration: none;
+    color: black;
+}
+
+input::placeholder{
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+input[readonly]
+{
+    color:gray;
+    pointer-events: none;
+}

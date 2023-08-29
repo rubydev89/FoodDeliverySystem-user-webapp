@@ -1,0 +1,17 @@
+.cust-category-button{
+    background-color: transparent;
+    color: black;
+}
+
+.scrollable-div {
+    overflow-x: scroll;   /* Enable horizontal scrolling */
+    white-space: nowrap;  /* Prevent content from wrapping */
+}
+
+.carousel-control-prev, .carousel-control-next{
+    width:5%
+}
+
+.cust-restaurant-view{
+    cursor: pointer;
+}
