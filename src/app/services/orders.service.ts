@@ -95,7 +95,7 @@ export class OrdersService {
 
   addOrderData(newOrderData: Orders): Observable<Action<Orders>> {
     //newOrderData = newOrderData;
-    console.log(`inside addOrderData() ${newOrderData}`);
+    //console.log(`inside addOrderData() ${newOrderData}`);
     return this.saveOrders({
       item: newOrderData,
       action: 'add'
@@ -139,7 +139,7 @@ export class OrdersService {
       return [...orders, operation.item!];
     } else if (operation.action === 'update') {
       // Return a new array with the updated OrderData replaced
-      console.log('after modify', operation.item);
+      //console.log('after modify', operation.item);
       return orders.map(orders => orders!.orderId === operation.item!.orderId ? operation.item! : orders)
     } 
     return [...orders];

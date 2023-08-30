@@ -14,7 +14,7 @@
                         <hr class=" mx-3">
                         <ng-container *ngFor="let dish of allDishes; let i = index">
                             <div *ngIf="dish.category == category" class="card mt-3 mx-3" style="width: 18rem;">
-                              <img [src]="dish.dishImageUrl" class="card-img-top" [alt]="dish.dish_name">
+                              <img [src]="dish.dishImageUrl" class="card-img-top" [alt]="dish.dish_name" onerror="this.src='../../../assets/img/default-dish.jpeg';">
                               <div class="card-body">
                                 <h5 class="card-title">{{ dish.dish_name }}</h5>
                                 <p class="card-text">{{ dish.description }}</p>

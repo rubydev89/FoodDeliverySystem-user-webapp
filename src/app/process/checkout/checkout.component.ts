@@ -271,13 +271,13 @@ export class CheckoutComponent implements OnInit {
 
   addressSelect(address: Address){
     this.selectedAddressForOrder = address;
-    console.log(`on change selected address : ${this.selectedAddressForOrder}`)
+    //console.log(`on change selected address : ${this.selectedAddressForOrder}`)
   }
 
   updateAddress(){
     //let address:Address|null = this.selectedAddressForOrder;
     this.selectedAddressForOrder.users = {id : this.loggedInUserData.id};
-    console.log(`address is : ${JSON.stringify(this.selectedAddressForOrder)}`);
+    //console.log(`address is : ${JSON.stringify(this.selectedAddressForOrder)}`);
     if(this.loggedInUserAddress.length > 0)
       this._userService.updateAddress(this.selectedAddressForOrder!,this.selectedAddressForOrder!.id!,'update').subscribe({ 
         next : (data) => {
@@ -335,7 +335,7 @@ export class CheckoutComponent implements OnInit {
 
     this._orderService.addOrderData(order).subscribe({
       next: (dataAction) => {
-        console.log(`order created is: ${JSON.stringify(dataAction)}`)
+        //console.log(`order created is: ${JSON.stringify(dataAction)}`)
         this.newOrderData = dataAction.item;
         let order_items :OrderItems[] = [];
         this.cartItems.forEach(cartItem => {
@@ -353,7 +353,7 @@ export class CheckoutComponent implements OnInit {
           next : (data) => {
             this._checkoutModal.open(this.orderPlaced);
             this._restService.emptyCart(this.cartItems[0]);
-            console.log(`order item created is: ${JSON.stringify(data)}`);
+            //console.log(`order item created is: ${JSON.stringify(data)}`);
           },
           error : err => console.log(err)
         });

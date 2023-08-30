@@ -267,7 +267,7 @@ export class ProfileViewComponent implements OnInit {
     {
       if(address.id == 0){
         address = {...address, id:null}
-        console.log(`address is : ${JSON.stringify(address)}`);
+        //console.log(`address is : ${JSON.stringify(address)}`);
         this._userService.updateAddress(address,this.loggedInUserData!.id!,'add').subscribe({ 
           next : (data) => {
             //this.addressUpdated = true;
