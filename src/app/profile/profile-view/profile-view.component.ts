@@ -63,7 +63,7 @@ export class ProfileViewComponent implements OnInit {
       },
       phone : {
         required : 'Please enter the phone number',
-        pattern : 'Please provide 10 digit phone number.'
+        pattern : 'Please provide 10 digit phone number'
       },
       state : {
         required : 'Please enter your state'

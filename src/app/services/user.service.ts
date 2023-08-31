@@ -136,7 +136,7 @@ export class UserService {
   }
 
   userAddressRegister(userReq:Address,userId:number|null):Observable<Address[]>{
-    return this._httpClient.post<Address[]>(`${environment.baseUrl}/v1/user/${userId}/address`, userReq);
+    return this._httpClient.post<Address[]>(`${environment.baseUrl}/v1/user/${userId}/register/address`, userReq);
   }
 
   isLoggedIn():boolean {

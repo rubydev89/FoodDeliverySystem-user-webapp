@@ -1,3 +1,4 @@
+import { NumberValidator } from './../../shared/NumberValidator';
 
 import { Address } from './../../model/address';
 import { UserService } from './../../services/user.service';
@@ -74,6 +75,26 @@ export class LoginComponent implements OnInit {
       },
       regPassword : {
         required : 'Please enter your password'
+      },
+      street : {
+        required : 'Please enter the street'
+      },
+      city : {
+        required : 'Please enter the city'
+      },
+      state : {
+        required : 'Please enter the state'
+      },
+      country : {
+        required : 'Please enter the country'
+      },
+      pincode : {
+        required : 'Please enter the pincode',
+        pincodeLength : 'Please enter 5 digit pincode'
+      },
+      phone : {
+        required : 'Please enter your phone',
+        pattern : 'Please provide 10 digit phone number.'
       }
     };
 
@@ -99,14 +120,14 @@ export class LoginComponent implements OnInit {
         confirmEmail : ['',[Validators.required]]
       },{ validators : emailMatcher}),
       password : ['',Validators.required],
-      phone : ['',[Validators.pattern('^[1-9][0-9]{9}$')]],
+      phone : ['',[Validators.required, Validators.pattern('^[1-9][0-9]{9}$')]],
       imgUrl : [''],
       address : this._formBuilder.group({
-        street: '',
-        city: '',
-        state: '',
-        country: '',
-        pincode: '',
+        street: ['',Validators.required],
+        city: ['',Validators.required],
+        state: ['',Validators.required],
+        country: ['',Validators.required],
+        pincode: ['',[Validators.required, NumberValidator.zipLengthValidator(5)]],
         type : ''
       })
     });
@@ -209,7 +230,7 @@ export class LoginComponent implements OnInit {
           email : this.registerForm.value.email.regEmail,
           password : this.registerForm.value.password,
           status : 'active',
-          imgUrl : this.registerForm.value.imgUrl
+          imgUrl : '../../../assets/img/profile-new-user.png'
         };
         ////console.log(`user to be added is : ${JSON.stringify(user)}`);
         this._registerSub = this._userService.addUserItem(user).subscribe({
