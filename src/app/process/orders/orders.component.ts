@@ -50,8 +50,9 @@ export class OrdersComponent implements OnInit {
     this._destroy$.complete();
   }
 
-  cancelOrder(){
+  /* reOrder(orderData : any){
     //console.log(`inside cancelOrder()`);
-  }
+    console.log(JSON.stringify(orderData));
+  } */
 
 }

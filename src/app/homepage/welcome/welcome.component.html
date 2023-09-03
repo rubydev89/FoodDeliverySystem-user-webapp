@@ -42,21 +42,25 @@
     <!-- <div *ngIf="restCategories" class="d-flex justify-content-around  bg-light align-items-center mt-5 py-3 scrollable-div">
         <a type="button" *ngFor="let category of restCategories" (click)="categorySelected(category)" class="btn btn-outline-dark btn-lg rounded-pill cust-category-button mt-1 mx-1 mx-sm-2">{{category}}</a>
     </div> -->
-    <div class="row row-cols-1 row-cols-sm-3 row-cols-md-4 g-4 mt-5 mx-5" *ngIf="allRestaurants$ | async as rests">
+    <div class="row row-cols-1 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4 mt-5 mx-5" *ngIf="allRestaurants$ | async as rests">
         <div class="col" *ngFor="let data of rests! ">
-        <div class="card h-100 cust-restaurant-view" (click)="viewDishes(data)">
-            <img *ngIf="data.restaurantImageUrl; else defaultImage" [src]=(data.restaurantImageUrl) class="card-img-top" [alt]=(data.name)>
-            <div class="card-body">
-            <h5 class="card-title">{{data.name}}</h5>
-            <p class="card-text">{{data.description}}</p>
-            <p class="card-text"><i class="fa fa-map-pin"></i> &nbsp;{{data.address}}</p>
-            <p class="card-text"><i class="fa fa-phone"></i> &nbsp;{{data.phone}}</p>
-            <app-star [rating]=" data?.rating ? data?.rating! : 0"></app-star>
+            <div class="card h-100 cust-restaurant-view" (click)="viewDishes(data)">
+                <img *ngIf="data.restaurantImageUrl; else defaultImage" [src]=(data.restaurantImageUrl) style="height: 15rem;" class="card-img-top border-bottom" [alt]=(data.name)>
+                <div class="card-body">
+                    <h5 class="card-title">{{data.name}}</h5>
+                    <p class="card-text">{{data.description}}</p>
+                    <p class="card-text"><i class="fa fa-map-pin"></i> &nbsp;{{data.address}}</p>
+                    <p class="card-text"><i class="fa fa-phone"></i> &nbsp;{{data.phone}}</p>
+                    <app-star [rating]=" data?.rating ? data?.rating! : 0"></app-star>
+                </div>
+                <div class="card-footer d-flex justify-content-center">
+                    <a role="button" (click)="viewDishes(data)" class="btn rounded-pill">Explore</a>
+                </div>
             </div>
         </div>
-        </div>
     </div>
+
 </div>
 <ng-template #defaultImage>
-    <img [src]=(defaultRestaurantImgUrl) class="card-img-top" alt='Restaurant'>
+    <img [src]=(defaultRestaurantImgUrl) class="card-img-top border-bottom" alt='Restaurant' style="height: 15rem;">
 </ng-template>

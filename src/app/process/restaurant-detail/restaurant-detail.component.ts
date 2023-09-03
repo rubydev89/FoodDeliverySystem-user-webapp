@@ -30,7 +30,7 @@ export class RestaurantDetailComponent implements OnInit {
         //console.log(category);
         this.selectedRestaurant = restData;
           /* category.find(rest => {
-          console.log(rest.id === restId);
+          //console.log(rest.id === restId);
           return rest.id === restId});*/
       }
     });

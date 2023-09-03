@@ -116,7 +116,7 @@ export class UserService {
       const url = `${environment.baseUrl}/v1/user/${user!.id}`;
       return this._httpClient.put<User>(url, user, { headers: this._headers })
         /* .pipe(
-          tap(data => console.log('Updated UserItem: ' + JSON.stringify(data))),
+          //tap(data => console.log('Updated UserItem: ' + JSON.stringify(data))),
           // Return the original UserItem so it can replace the UserItem in the array
           map(() => ({ item: user, action: operation.action }))
         ) */;
@@ -129,7 +129,7 @@ export class UserService {
     return this._httpClient.post<any>(`${environment.baseUrl}/v1/user/login`, userReq, {headers: this._headers})
     /* .pipe(
       switchMap((data) => {
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
         return this._httpClient.get<User>(`${environment.baseUrl}/v1/user/${data.id}`);
       })
     ); */

@@ -33,6 +33,7 @@ export class ProfileViewComponent implements OnInit {
   addressToBeDeleted!:Address;
   userInfoUpdateSuccess:boolean = false;
   addressUpdateSuccess:boolean = false;
+  errorMessage:string = '';
 
   defaultProfileImgUrl = '../../../assets/img/profile-new-user.png';
 
@@ -43,10 +44,10 @@ export class ProfileViewComponent implements OnInit {
     .subscribe({
       next : data => {
         this.loggedInUserData = data;
-        console.log(`View Profile - data is : ${JSON.stringify(data)}`);
+        //console.log(`View Profile - data is : ${JSON.stringify(data)}`);
       },
       error : err => {
-        console.log(`View Profile - err is : ${JSON.stringify(err)}`);}
+        //console.log(`View Profile - err is : ${JSON.stringify(err)}`);}
     }); */
 
 
@@ -276,7 +277,7 @@ export class ProfileViewComponent implements OnInit {
           },
           error : err => {
             //this.addressUpdated = false;
-            console.log(err);
+            this.errorMessage = err.error.message;
           }
         });
       }
@@ -290,7 +291,7 @@ export class ProfileViewComponent implements OnInit {
           },
           error : err => {
             //this.addressUpdated = false;
-            console.log(err);
+            this.errorMessage = err.error.message;
           }
         });
       }
@@ -313,7 +314,7 @@ export class ProfileViewComponent implements OnInit {
       },
       error : err => {
         //this.addressUpdated = false;
-        console.log(err);
+        this.errorMessage = err.error.message;
       }
     }); 
     this._userService.setLoggedInUserId(this.loggedInUserData!.id);

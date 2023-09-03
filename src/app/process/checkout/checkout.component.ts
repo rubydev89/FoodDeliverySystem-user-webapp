@@ -40,6 +40,7 @@ export class CheckoutComponent implements OnInit {
   cartSubTotalPrice!:number;
 
   newOrderData!:Orders|null;
+  errorMessage:string = '';
 
   //Charges
   deliverCharge:number = 5;
@@ -288,7 +289,7 @@ export class CheckoutComponent implements OnInit {
         },
         error : err => {
           this.addressUpdated = false;
-          console.log(err);
+          this.errorMessage = err.error.message;
         }
       });
     else {
@@ -301,7 +302,7 @@ export class CheckoutComponent implements OnInit {
           //this._userService.setLoggedInUserId()
           },
           error : err => {
-            console.log(err);
+            this.errorMessage = err.error.message;
             this.addressUpdated = false;
           //this.errorMessage = err.error.message;
           }
@@ -313,7 +314,7 @@ export class CheckoutComponent implements OnInit {
   placeOrder(){
     /*********** Need to think of an address, currently we are not using address associated with delivery ****** */
     /* const address = this.selectedAddressForOrder;
-    console.log(address); */
+    //console.log(address); */
     //console.log(JSON.stringify(this.cartItems));
     let order : Orders = {
       orderId : null,
@@ -355,11 +356,11 @@ export class CheckoutComponent implements OnInit {
             this._restService.emptyCart(this.cartItems[0]);
             //console.log(`order item created is: ${JSON.stringify(data)}`);
           },
-          error : err => console.log(err)
+          error : err => this.errorMessage = err.error.message
         });
       },
       error: err => {
-        console.log(err);
+        this.errorMessage = err.error.message;
       }
     });
 

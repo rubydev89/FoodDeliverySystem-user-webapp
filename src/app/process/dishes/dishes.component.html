@@ -12,31 +12,34 @@
                     <span *ngFor="let category of allDishCategoryForRestaurant; let i =index" [id]="'dish-category-side-bar-'+i" class="row gx-0 scrollspy-container mb-5">
                         <h4 class=" mx-3">{{category}}</h4>
                         <hr class=" mx-3">
-                        <ng-container *ngFor="let dish of allDishes; let i = index">
-                            <div *ngIf="dish.category == category" class="card mt-3 mx-3" style="width: 18rem;">
-                              <img [src]="dish.dishImageUrl" class="card-img-top" [alt]="dish.dish_name" onerror="this.src='../../../assets/img/default-dish.jpeg';">
-                              <div class="card-body">
-                                <h5 class="card-title">{{ dish.dish_name }}</h5>
-                                <p class="card-text">{{ dish.description }}</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p class="card-text fw-bold align-self-center">{{ dish.price | currency }}</p>
-
-                                    
-
-                                    <ng-container *ngIf="cartItems && verifyIfDishInCart(dish); else noContent">
-                                       <div class=" input-group border rounded-pill w-50" >
-                                            <button class="border-0 bg-transparent" type="button" (click)="decreaseDishQuantityInCart(dish)">-</button>
-                                            <input type="text" tabindex="0" class="form-control text-center" [ngModel]="getDishQuantityFromCart(dish)" readonly >
-                                            <button class="border-0  bg-transparent" type="button" (click)="increaseDishQuantityInCart(dish)">+</button>
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+                            <ng-container *ngFor="let dish of allDishes; let i = index">
+                                <div *ngIf="dish.category == category" class="col mt-1" >
+                                    <div class="card h-100">
+                                        <img [src]="dish.dishImageUrl" class="card-img-top" [alt]="dish.dish_name" style="height: 10rem;" onerror="this.src='../../../assets/img/default-dish.jpeg';">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ dish.dish_name }}</h5>
+                                            <p class="card-text">{{ dish.description }}</p>
                                         </div>
-                                    </ng-container>
-                                    <ng-template #noContent>
-                                        <button type="button" class="btn text-center rounded-pill" (click)="openAddDishModal(addDishModal,dish)">Add To Cart</button>
-                                    </ng-template>
+                                        <div class="card-footer d-flex justify-content-between align-items-center">
+                                            <div><p class="card-text fw-bold align-self-center">{{ dish.price | currency }}</p></div>
+                                            <ng-container *ngIf="cartItems && verifyIfDishInCart(dish); else noContent">
+                                            <div class=" input-group border rounded-pill w-50" >
+                                                    <button class="border-0 bg-transparent" type="button" (click)="decreaseDishQuantityInCart(dish)">-</button>
+                                                    <input type="text" tabindex="0" class="form-control text-center" [ngModel]="getDishQuantityFromCart(dish)" readonly >
+                                                    <button class="border-0  bg-transparent" type="button" (click)="increaseDishQuantityInCart(dish)">+</button>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #noContent>
+                                                <button type="button" class="btn text-center rounded-pill" (click)="openAddDishModal(addDishModal,dish)">Add</button>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                              </div>
-                            </div>
-                        </ng-container>
+                            </ng-container>
+
+                        </div>
                     </span>
                 </div>
             </div>

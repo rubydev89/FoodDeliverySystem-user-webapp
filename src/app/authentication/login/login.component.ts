@@ -172,7 +172,7 @@ export class LoginComponent implements OnInit {
     /* this._userService.userLogin(userDataLogin)
       .subscribe({ 
         next : (response:any) => { 
-          console.log(JSON.stringify(response.headers.get('Set-Cookie')));
+          //console.log(JSON.stringify(response.headers.get('Set-Cookie')));
           let responseHeaders = response.headers.keys().reduce((acc, key) => {
              //acc[key] = response.headers.get(key);
             return acc;
@@ -218,7 +218,7 @@ export class LoginComponent implements OnInit {
         ////console.log(this.registerForm.value);
 
         let addressData:Address = this.registerForm.value.address ? { ...this.registerForm.value.address } : null;
-        addressData.phone = this.registerForm.value.phone ? this.registerForm.value.phone : null;
+        addressData.phone = this.registerForm.value.phone!;
         ////console.log(addressData);
 
         this.registerForm.value.address = null;

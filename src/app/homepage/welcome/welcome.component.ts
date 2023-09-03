@@ -17,6 +17,8 @@ export class WelcomeComponent implements OnInit {
   carouselItemNo:number = 2;
   activeCarouselIndex: number = 0; // Store the index of the active carousel item
 
+  errorMessage : string = '';
+
   private _sub1! : Subscription | null;
   private _sub2! : Subscription | null;
 
@@ -46,6 +48,7 @@ export class WelcomeComponent implements OnInit {
       this._sub1 = this._restService.cartwithCRUD$
       .subscribe();
     }
+
     //this.restaurantSearchValue = this._restService.getSearchRestaurantinHeader();
     this._sub2 = this._restService.allRestCategfories$.subscribe({
       next: category => {
@@ -53,7 +56,7 @@ export class WelcomeComponent implements OnInit {
         this.restCategories.unshift('All');
       },
       error: err => {
-        console.log(`error : ${JSON.stringify(err)}`)
+        this.errorMessage = err.error.message;
         this._errorMessageSubject.next(err.message);
         //this.errorMessage = err.error.message
       }
@@ -65,6 +68,8 @@ export class WelcomeComponent implements OnInit {
     this._sub1!.unsubscribe();
     this._sub2!.unsubscribe();
   }
+
+  restWithDishes$ = this._restService.restaurantWithDishes$;
 
   private _filterRestNameSubject = new BehaviorSubject<string>('');
   filterRestNameAction$ = this._filterRestNameSubject.asObservable();

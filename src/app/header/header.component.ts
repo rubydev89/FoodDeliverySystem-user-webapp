@@ -70,7 +70,7 @@ export class HeaderComponent implements OnInit {
         
       },
       error : err => {
-        console.log(`Error while logging out : ${err}`);
+        this.errorMessage = err.error.message;
       }
     });
     localStorage.clear();

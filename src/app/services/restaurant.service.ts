@@ -74,7 +74,7 @@ export class RestaurantService {
   /* allCartItems$ = this._httpClient.get<Cart[]>(`${environment.baseUrl}/v1/user/${+localStorage.getItem('userId')!}/cartitems`,{headers:this._headers}).
     pipe(
       shareReplay(1),
-      tap(data => console.log(`allCartItems : ${JSON.stringify(data)}`))
+      //tap(data => console.log(`allCartItems : ${JSON.stringify(data)}`))
     ); */
 
   private cartModifiedSubject = new Subject<Action<Cart>>();
@@ -207,6 +207,22 @@ export class RestaurantService {
       }
       return this._httpClient.get<Dish[]>(`${environment.baseUrl}/v1/restaurant/${restId}/dishes`,{headers:this._headers});
     })
+  );
+
+  restaurantWithDishes$ = combineLatest([
+    this.allRestaurant$,
+    this.allDish$
+  ]).pipe(
+    map(([restaurants, dishes]) =>
+      restaurants.map(restaurant => ({
+        restaurant : {...restaurant},
+        //price: restaurant.price ? restaurant.price * 1.5 : 0,
+        dish: dishes.find(c => restaurant.id === c.restaurant.id)
+       //, searchKey: [restaurant.name]
+      } as {restaurant:Restaurant, dish:Dish}))
+    ),
+    shareReplay(1)
+    ,tap(c => console.log(JSON.stringify(c)))
   );
 
   selectedRestaurantData$ = this.selectedRestaurantId$.pipe(

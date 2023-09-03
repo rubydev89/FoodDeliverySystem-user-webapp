@@ -34,7 +34,7 @@ export class DishesComponent implements OnInit {
       .subscribe(data => {
         this.cartItems = data;
         // Handle the data emitted by the observable
-        console.log('Cart data:', this.cartItems);
+        //console.log('Cart data:', this.cartItems);
       }); */
    }
   
@@ -201,7 +201,7 @@ export class DishesComponent implements OnInit {
   
   /* addToFavorites(dish : Dish){
     let favoriteELement = document.getElementById(`favorite${dish.dishId}`);
-    console.log(favoriteELement!.innerHTML);
+    //console.log(favoriteELement!.innerHTML);
     favoriteELement!.innerHTML = `<i class="fa fa-heart fa-xl" style="color: #e66b28;font-size: xx-large;"></i>`;
   } */
 
