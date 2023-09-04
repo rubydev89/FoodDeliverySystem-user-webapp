@@ -15,3 +15,10 @@
 .cust-restaurant-view{
     cursor: pointer;
 }
+
+.cust-restaurant-card-img{
+    height: 20rem; /* Set the desired height */
+    width: auto; /* Maintain the aspect ratio */
+    display: block; /* Ensure the image behaves as a block element */
+    object-fit: cover; /* Preserve the aspect ratio and cover the container */
+  }

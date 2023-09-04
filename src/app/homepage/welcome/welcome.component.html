@@ -45,7 +45,7 @@
     <div class="row row-cols-1 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4 mt-5 mx-5" *ngIf="allRestaurants$ | async as rests">
         <div class="col" *ngFor="let data of rests! ">
             <div class="card h-100 cust-restaurant-view" (click)="viewDishes(data)">
-                <img *ngIf="data.restaurantImageUrl; else defaultImage" [src]=(data.restaurantImageUrl) style="height: 15rem;" class="card-img-top border-bottom" [alt]=(data.name)>
+                <img *ngIf="data.restaurantImageUrl; else defaultImage" [src]=(data.restaurantImageUrl) class="card-img-top border-bottom cust-restaurant-card-img" [alt]=(data.name)>
                 <div class="card-body">
                     <h5 class="card-title">{{data.name}}</h5>
                     <p class="card-text">{{data.description}}</p>
@@ -62,5 +62,5 @@
 
 </div>
 <ng-template #defaultImage>
-    <img [src]=(defaultRestaurantImgUrl) class="card-img-top border-bottom" alt='Restaurant' style="height: 15rem;">
+    <img [src]=(defaultRestaurantImgUrl) class="card-img-top border-bottom cust-restaurant-card-img" alt='Restaurant'>
 </ng-template>
