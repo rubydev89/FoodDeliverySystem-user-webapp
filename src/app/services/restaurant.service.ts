@@ -18,6 +18,7 @@ export class RestaurantService {
 
   cartElement!:Cart[];
   cartItemNumber!:number;
+  cartTotalPrice!:number;
 
   /** variable for search restaurant in header */
   private _filterRestaurantBy: string = '';
@@ -73,6 +74,7 @@ export class RestaurantService {
           cartItem => {
             this.cartElement = cartItem;
             this.cartItemNumber = cartItem.length;
+            this.cartTotalPrice = cartItem.reduce((acc, item) => acc + (item.dishes.price * item.quantity), 0);
             return cartItem;
           }
         )

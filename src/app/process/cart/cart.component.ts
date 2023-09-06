@@ -22,21 +22,8 @@ export class CartComponent implements OnInit {
   }
 
   constructor(public _restService : RestaurantService, private _router : Router) {
-    //this.adminId = 7;
-    this._restService.setLoggedInUserId(+localStorage.getItem('userId')!);
-    this._restService.allCartItems$.subscribe();
-    if(this.status){
-      this._cartSubscription = this._restService.cartwithCRUD$
-      .pipe(takeUntil(this._destroy$))
-      .subscribe(data => {
-        this.cartItems = data;
-        //console.log('Cart component - cartItems:', this.cartItems);
-        this.cartTotalPrice = data.reduce((acc, item) => acc + (item.dishes.price * item.quantity), 0);
-        // Handle the data emitted by the observable
-        //console.log('Cart component - cartTotalPrice:', this.cartTotalPrice);
-      });
-    }
-   }
+    
+  }
 
   ngOnInit(): void {
   }
@@ -71,7 +58,7 @@ export class CartComponent implements OnInit {
   }
 
   exploreMore(){
-    const url = `/restaurant/${this.cartItems[0].dishes.restaurant.id}/${this.cartItems[0].dishes.restaurant.name}`;
+    const url = `/restaurant/${this._restService.cartElement[0].dishes.restaurant.id}/${this._restService.cartElement[0].dishes.restaurant.name}`;
     //console.log(`url is: ${encodeURI(url)}`);
     this._router.navigateByUrl(encodeURI(url));
   }
