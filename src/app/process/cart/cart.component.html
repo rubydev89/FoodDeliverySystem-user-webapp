@@ -1,10 +1,10 @@
-<div *ngIf="cartItems && cartItems.length > 0; else emptyCart">
+<div *ngIf="_restService.cartElement && _restService.cartElement.length > 0; else emptyCart">
     <div class="offcanvas-header bg-custom-theme mb-4">
         <h4 id="offcanvasRightLabel">Your Cart</h4>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <!-- <hr class=" mx-3 mb-4"> -->
-    <ng-container *ngFor="let cartItem of cartItems; let i = index;">
+    <ng-container *ngFor="let cartItem of _restService.cartElement; let i = index;">
         <div class="row d-flex flex-row align-items-center px-3 fst-italic">
             <!-- <img [src]="cartItem.dishes.dishImageUrl" class="w-25" alt=""> -->
             <p class="col-1">{{i+1}}.</p>

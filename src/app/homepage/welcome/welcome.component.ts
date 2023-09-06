@@ -45,8 +45,8 @@ export class WelcomeComponent implements OnInit {
     this._restService.setLoggedInUserId(+localStorage.getItem('userId')!);
     this._orderService.setLoggedInUserId(+localStorage.getItem('userId')!);
     if(this.status){
-      this._sub1 = this._restService.cartwithCRUD$
-      .subscribe();
+      this._sub1 = this._restService.cartwithCRUD$.subscribe();
+      this._restService.allCartItems$.subscribe();
     }
 
     //this.restaurantSearchValue = this._restService.getSearchRestaurantinHeader();

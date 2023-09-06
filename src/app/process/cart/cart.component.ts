@@ -21,8 +21,10 @@ export class CartComponent implements OnInit {
     return localStorage.getItem('status') ? true : false;
   }
 
-  constructor(private _restService : RestaurantService, private _router : Router) {
+  constructor(public _restService : RestaurantService, private _router : Router) {
     //this.adminId = 7;
+    this._restService.setLoggedInUserId(+localStorage.getItem('userId')!);
+    this._restService.allCartItems$.subscribe();
     if(this.status){
       this._cartSubscription = this._restService.cartwithCRUD$
       .pipe(takeUntil(this._destroy$))

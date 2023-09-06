@@ -16,6 +16,9 @@ export class RestaurantService {
 
   private _headers = new HttpHeaders({'Content-Type' : 'application/json'});
 
+  cartElement!:Cart[];
+  cartItemNumber!:number;
+
   /** variable for search restaurant in header */
   private _filterRestaurantBy: string = '';
   setFilterRestaurantBy(value: string) {
@@ -66,6 +69,13 @@ export class RestaurantService {
       return this._httpClient.get<Cart[]>(`${environment.baseUrl}/v1/user/${+localStorage.getItem('userId')!}/cartitems`,{headers:this._headers})
       .pipe(
         shareReplay(1)
+        ,map(
+          cartItem => {
+            this.cartElement = cartItem;
+            this.cartItemNumber = cartItem.length;
+            return cartItem;
+          }
+        )
       );
     })
   );
@@ -99,6 +109,7 @@ export class RestaurantService {
       item: newCartItem,
       action: 'add'
     });
+    this.setLoggedInUserId(newCartItem.users.id);
   }
 
   deleteCartItem(selectedCartItem: Cart): void {
@@ -106,6 +117,7 @@ export class RestaurantService {
       item: selectedCartItem,
       action: 'delete'
     });
+    this.setLoggedInUserId(selectedCartItem.users.id);
   }
 
   emptyCart(selectedCartItem: Cart): void {
@@ -113,6 +125,7 @@ export class RestaurantService {
       item: selectedCartItem,
       action: 'empty'
     });
+    this.setLoggedInUserId(selectedCartItem.users.id);
   }
 
   updateCartItem(selectedCartItem: Cart): void {
@@ -121,6 +134,7 @@ export class RestaurantService {
       item: selectedCartItem,
       action: 'update'
     });
+    this.setLoggedInUserId(selectedCartItem.users.id);
   }
   
   saveCart(operation: Action<Cart>): Observable<Action<Cart>> {

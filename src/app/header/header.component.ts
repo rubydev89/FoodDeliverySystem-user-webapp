@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
 
   private _sub! : Subscription | null;
    
-  constructor(public _loginService:UserService, private _router:Router, private _resService : RestaurantService) { 
+  constructor(private _loginService:UserService, private _router:Router, public _resService : RestaurantService) { 
   }
 
   //userNameDisplayed:string = this._loginService.loginUser;

@@ -23,7 +23,7 @@
                 <ul class="navbar-nav px-3 ms-auto mt-4 mt-lg-0" *ngIf="status">
                     <li class="nav-item  px-2 h5">
                         <a type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" class="nav-link d-inline-flex position-relative">
-                          <span><i class="fa fa-shopping-bag"></i><span class="position-absolute top-75 start-100 translate-middle p-1 badge rounded-pill badge-notification bg-primary" *ngIf="cartItemNumber>0">{{cartItemNumber}}</span></span>
+                          <span><i class="fa fa-shopping-bag"></i><span class="position-absolute top-75 start-100 translate-middle p-1 badge rounded-pill badge-notification bg-primary" *ngIf="_resService.cartItemNumber">{{_resService.cartItemNumber}}</span></span>
                           
                         </a>
                     </li>
