@@ -301,7 +301,7 @@
                             
                         </div>
                         <div class="d-flex justify-content-end">
-                            <button [disabled]="!(paymentMethodSelected === 'Credit/Debit' || paymentMethodSelected === 'PayPal') && !paymentCardDetail.valid" class="btn  rounded-pill m-3" type="button" (click)="toggleAccordion(paymentHeadingElement,placeOrderHeadingElement)" >
+                            <button [disabled]="!(paymentMethodSelected === 'PayPal' || (paymentMethodSelected === 'Credit/Debit' && paymentCardDetail.valid))" class="btn  rounded-pill m-3" type="button" (click)="toggleAccordion(paymentHeadingElement,placeOrderHeadingElement)" >
                                 Review Order
                             </button>
                         </div>
